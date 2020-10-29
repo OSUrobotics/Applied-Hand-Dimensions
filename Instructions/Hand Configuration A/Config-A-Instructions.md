@@ -6,7 +6,7 @@ Position robot end-effector as if it were to grasp a cylinder on a table top (as
 
 Using the reference cylinder, assign the axes to the hand. *Makes reference to sections in the methodology section for how to pick axes. How should we handle that here*
 
-# Precision Grasp Measurements
+## Precision Grasp Measurements
 
 To measure the hand dimensions on a precision grasp, one must make three measurements at three different finger positions --- which we will use to build a complete span-depth profile of the hand throughout the hand's actuation.
 
@@ -37,7 +37,7 @@ To make these measurements, perform the following steps:
 15. ***Measurement Image Sets 3+:*** Make sure that for every measurement you take a top-down and side-profile image of the hand's pose.
 16. ***Final Steps:*** Plot the span and depth values with span as the x-axis. Plot the Max Span Limit as a dotted line to indicate the how far the hand can open.
 
-# Power Grasp Measurements
+## Power Grasp Measurements
 
 To measure the hand volume on a 2d, cylindrical power grasp, one must measure three cross-sectional volumes at three different finger positions. Each cross-sectional volume consists of three span-depth measurement pairs. The method to measure the span-depth measurement pairs differs between the cylindrical and spherical power grasps, although the general method of measuring the volumes is the same. In this section, first we will go over the general method to measuring the hand power grasp dimensions, and then follow up with the unique way to measure the span-depth measurements for the cylindrical and spherical power grasps separately.
 
@@ -66,7 +66,7 @@ The complete instructions for measuring the hand volume at each finger position 
 13. **Measurement Image Sets 3:** Take a top-down and side-profile image of the hand's pose.
     - Repeat the steps for Position 3 for as many intermediate measurements as desired.
 
-# Cylindrical Volume Measurement
+### Cylindrical Volume Measurement
 
 For the cylindrical volume measurements, we approximate the volume inside the power grasp by making three span measurements at specific depth measurements.
 
