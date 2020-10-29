@@ -4,7 +4,7 @@
 
 Position robot end-effector as if it were to grasp a cylinder on a table top (as shown in the Figure). This can be done with or without an actual cylindrical object --- the main point is that the hand is set up in this fashion. We will refer to this cylindrical object as the reference cylinder.
 
-Using the reference cylinder, assign the axes to the hand. *Makes reference to sections in the methodology section for how to pick axes. How should we handle that here*
+Using the reference cylinder, assign the axes to the hand. *Makes reference to sections in the methodology section for how to pick axes. How should we handle that here?*
 
 ## Precision Grasp Measurements
 
@@ -26,7 +26,7 @@ To make these measurements, perform the following steps:
 8. ***Max Width Measurement:*** Measure the maximum width, choosing between the two width calculations described in section **axes** which apply best to the hand.
 9. ***Min Width Measurement:*** Measure the minimum width, choosing between the two width calculations described in section **axes** which apply best to the hand.
 	- If the fingers are positioned in such a way that they do not obstruct a taller object from bring grasped, add a plus sign after the measurement to indicate this.
-    - See the top of Figures \ref{fig:config_a} and \ref{fig:config_b} as a reference.
+    - See the top of Figures Config A and COnfig B as a reference.
 9. ***Measurement Image Set 1***: Take a top-down and side-profile image of the hand's pose, making sure that the 1mm grid in the background is also clear.
 
 10. ***Position 2:*** Now minimize the distance between the distal links.
@@ -55,7 +55,7 @@ The complete instructions for measuring the hand volume at each finger position 
 5. ***Max Width Measurement:*** Measure the maximum width, choosing between the two width calculations described in section \ref{sec:axes} which apply best to the hand.
 6. ***Min Width Measurement:*** Measure the minimum width, choosing between the two width calculations described in section \ref{sec:axes} which apply best to the hand.
 	- If the fingers are positioned in such a way that they do not obstruct a taller object from bring grasped, add a plus sign after the measurement to indicate this.
-    - See the top of Figures \ref{fig:config_a} and \ref{fig:config_b} as a reference.
+    - See the top of Figures Config A and Config B as a reference.
 7. **Measurement Image Set 1:** Take a top-down and side-profile image of the hand's pose, making sure that the 1mm grid in the background is also clear.
 8. ***Position 2:*** Close the fingers as much as possible.
 9. ***Volume Measurement 2:*** Use the volume measurement instructions to measure the hand volume for this finger position. 
