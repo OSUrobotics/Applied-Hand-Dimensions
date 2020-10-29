@@ -19,7 +19,7 @@ To make these measurements, perform the following steps:
 3. ***Max Span Limit:*** Measure the total distance in the span axis between the midpoint of the distal links that will grasp the cylinder on each side.
 4. ***Measurement Image Set 0:*** Take a top-down and side-profile image of the hand's pose, making sure that the 1mm grid in the background is also clear. 
     - **Position 1:** Close the fingers such that the end effector can grasp the largest reference cylinder that can fit between the distal links, ignoring that such a reference cylinder size could collide with the proximal or palm contacts. 
- 		- **Note:** As a guideline, consider actuating the distal links such that they are as far apart as possible, and up to $~120\degree$ angle from the palm.
+ 		- **Note:** As a guideline, consider actuating the distal links such that they are as far apart as possible, and up to 120 degrees angle from the palm.
         - One could also consider that the distal link contacts on the reference cylinder should be below the mid-line of the cylinder face, as shown in both Config A and Config B Figures. 
 5. ***Span Measurement 1:*** Measure the total distance in the span axis between the distal links, as before. 
 6. ***Depth Measurement 1:*** Keeping the same position, now measure the total distance orthogonal to the palm up to the span line (remember, this is to the midpoint of the distal link where you measured span). 
