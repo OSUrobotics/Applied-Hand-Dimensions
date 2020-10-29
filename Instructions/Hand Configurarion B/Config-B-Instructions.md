@@ -1,4 +1,4 @@
-# Hand Measurement Instructions for Configuration A
+# Hand Measurement Instructions for Configuration B
 
 ## Initial Hand Positioning
 
