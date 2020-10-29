@@ -2,7 +2,7 @@
 
 
 ### Max Span with Distals at 10 Degrees Inwards
-<img src="Images/ModelO_ConfA_Power_Max_Midpoint.png" width="450"> <img src="Images/ModelO_ConfA_Power_Max_Widest.png" width="400">
+<img src="Images/ModelO_ConfA_Power_Max_Midpoint.png" width="400"> <img src="Images/ModelO_ConfA_Power_Max_Widest.png" width="375">
 
 Distal: Span = 16.2cm Depth = 4.6cm
 
@@ -21,7 +21,8 @@ Base: Span = 5.2cm Depth = 1.1cm
 
 
 ### Min Span
-<img src="Images/Images/ModelO_ConfA_Power_min.png" width="500">
+<img src="Images/ModelO_ConfA_Power_min.png" width="500">
+(The red dashed square is used to obtain widest measurments from the ruler on the base)
 
 Distal: Span = 0.0cm Depth = 5.8cm
 
