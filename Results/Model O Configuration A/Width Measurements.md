@@ -2,8 +2,10 @@
 
 ### Max Width
 
+(The green ruler is used for measurements)
+
 <img src="Images/ModelO_ConfA_Width_Max.png" width="400"> <br>
-Max Width = 9.4cm <br>
+Max Width = 9.4+cm <br>
 <br>
 <br>
 
