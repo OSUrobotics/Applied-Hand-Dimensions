@@ -1,7 +1,7 @@
 # Results Of Model O Configuration A Measurements
 
 <image>
-<img src="Images/ModelO_ConfA_Power_Chart.png" width="300">
+<img src="Images/ModelO_ConfA_Power_Chart.png" width="400">
 </image>
 <table>
     <thead>
