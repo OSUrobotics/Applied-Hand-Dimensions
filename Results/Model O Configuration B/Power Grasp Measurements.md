@@ -2,7 +2,7 @@
 
 
 ### Max Span with Distals at 10 Degrees Inwards
-<img src="Images/ModelO_ConfB_Power_Max_Depth.png" width="400">
+<img src="Images/ModelO_ConfB_Power_Max_Depth.png" width="500">
 
 Distal: Span = 16.9cm Depth = 4.5cm
 
