@@ -11,9 +11,9 @@ The Process for submitting a hand will go as follows:
 
 Once an application is accepted A folder for the specific hand will be generated containing four markdown files and an Images folder.<br>
 	Markdown Files:<br>
-		* `<hand name>` Power Grasp Measurements.md - Shows the pictures of each measurement and the recorded measurement values.<br>
-		* `<hand name>` Precision Grasp Measurements.md - Shows the pictures of each measurement and the recorded measurement values.<br>
-		* `<hand name>` Width Measurements.md - Shows the pictures and recorded values for the width measurements.<br>
+		* Power Grasp Measurements.md - Shows the pictures of each measurement and the recorded measurement values.<br>
+		* Precision Grasp Measurements.md - Shows the pictures of each measurement and the recorded measurement values.<br>
+		* Width Measurements.md - Shows the pictures and recorded values for the width measurements.<br>
 		* Results.md - Shows a table and plot for each grasp.
 
 Images Folder:<br>
