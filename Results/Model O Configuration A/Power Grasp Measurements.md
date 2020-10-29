@@ -2,21 +2,29 @@
 
 
 ### Max Span with Distals at 10 Degrees Inwards
-![Max_Span_Midpoint](/Images/ModelO_ConfA_Power_Max_Midpoint.png)
+<img src="Images/ModelO_ConfA_Power_Max_Midpoint.png" width="450"> <img src="Images/ModelO_ConfA_Power_Max_Widest.png" width="400">
 
-Span = 20.5cm
-Depth = 4.2cm
+Distal: Span = 16.2cm Depth = 4.6cm
 
+Widest: Span = 16.7cm Depth = 3cm
+
+Base: Span = 5.2cm Depth = 1.1cm
 
 ### Mid Span
-![Mid Span](Images/ModelO_ConfA_Precision_Mid.png)
+<img src="Images/ModelO_ConfA_Power_Mid.png" width="500">
 
-Span = 10.25cm
-Depth = 10.3cm
+Distal: Span = 6.3cm Depth = 9.9cm
+
+Widest: Span = 7.8cm Depth = 7.7cm
+
+Base: Span = 5.2cm Depth = 1.1cm
 
 
 ### Min Span
-![Min Span](Images/ModelO_ConfA_Precision_Min.png)
+<img src="Images/Images/ModelO_ConfA_Power_min.png" width="500">
 
-Span = 0cm
-Depth = 9.8cm
+Distal: Span = 0.0cm Depth = 5.8cm
+
+Widest: Span = 3.6cm Depth = 5.6cm
+
+Base: Span = 5.2cm Depth = 1.1cm
