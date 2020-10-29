@@ -92,3 +92,8 @@
         </tr>
     </tbody>
 </table>
+<br>
+<br>
+
+### Width:
+Max= 9.4+cm Min= 4.8cm
