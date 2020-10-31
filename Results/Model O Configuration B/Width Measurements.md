@@ -2,11 +2,11 @@
 
 ### Max Width
 
-<img src="Images/ModelO_ConfB_Width_Max.png" width="400"> <br>
-Max Width = 20cm <br>
+<img src="Images/ModelO_ConfB_Width_MaxV2.png" width="400"> <br>
+Max Width = 16.9cm <br>
 <br>
 <br>
 
 ### Min Width
-<img src="Images/ModelO_ConfB_Width_Min.png" width="400"> <br>
-Min Width = 0cm
+<img src="Images/ModelO_ConfB_Width_MinV2.png" width="400"> <br>
+Min Width = 1.5cm
