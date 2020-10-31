@@ -96,5 +96,5 @@
 <br>
 
 ### Width: 
-Max= 20cm Min= 0cm
+Max= 16.9cm Min= 1.5cm
 <br>
