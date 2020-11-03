@@ -9,7 +9,7 @@ The Process for submitting a hand will go as follows:
 	* If the measurements are found to not be at a satisfactory level then the applicant will be notified and can resubmit with updated measurements.
 
 
-Once an application is accepted A folder for the specific hand will be generated containing four markdown files and an Images folder.<br>
+Once an application is accepted a folder for the specific hand will be generated containing four markdown files and an Images folder.<br>
 	Markdown Files:<br>
 		* Power Grasp Measurements.md - Shows the pictures of each measurement and the recorded measurement values.<br>
 		* Precision Grasp Measurements.md - Shows the pictures of each measurement and the recorded measurement values.<br>
