@@ -1,7 +1,8 @@
 # Results Of Model O Configuration A Measurements
 
+### Power Grasp
 <image>
-<img src="Images/ModelO_ConfA_Power_Chart.png" width="400">
+<img src="Images/ModelO_ConfA_Power_ChartV2.png" width="400">
 </image>
 <table>
     <thead>
@@ -54,8 +55,11 @@
     </tbody>
 </table>
 
+
+### Precision Grasp
+
 <image>
-<img src="Images/ModelO_ConfA_Precision_Chart.png" width="400">
+<img src="Images/ModelO_ConfA_Precision_ChartV2.png" width="400">
 </image>
 
 <table>
