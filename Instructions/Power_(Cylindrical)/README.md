@@ -7,7 +7,7 @@ Position robot end-effector as if it were to grasp a cylinder on a table top (as
 Using the reference cylinder, assign the axes to the hand.
 
 
-# Power Grasp Measurements
+## Power Grasp Measurements
 
 To measure the hand volume on a 2d, cylindrical power grasp, one must measure three cross-sectional volumes at three different finger positions. Each cross-sectional volume consists of three span-depth measurement pairs. The method to measure the span-depth measurement pairs differs between the cylindrical and spherical power grasps, although the general method of measuring the volumes is the same. In this section, first we will go over the general method to measuring the hand power grasp dimensions, and then follow up with the unique way to measure the span-depth measurements for the cylindrical and spherical power grasps separately.
 
