@@ -49,5 +49,5 @@ One makes the set of three span-depth measurement pairs for a spherical power gr
 5. **Final Steps:** From here one can reconstruct the approximation of the hand volume for the particular finger position.
 
 ### Spherical Configuration (See third row for Power Grasp)
-![alt Spherical Configuration](Spherical.png)
+![alt text](Spherical.png)
 
