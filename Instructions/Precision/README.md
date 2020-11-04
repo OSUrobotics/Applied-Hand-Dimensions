@@ -37,6 +37,9 @@ To make these measurements, perform the following steps:
 16. ***Final Steps:*** Plot the span and depth values with span as the x-axis. Plot the Max Span Limit as a dotted line to indicate the how far the hand can open.
 
 ### Cylindrical Configuration (See second row for Precision Grasp)
-![alt text](Cylindrical.png)
+![alt Cylindrical Configuration](Cylindrical.png)
+
+### Spherical Configuration (See second row for Precision Grasp)
+![alt Spherical Configuration](Spherical.png)
 
 
