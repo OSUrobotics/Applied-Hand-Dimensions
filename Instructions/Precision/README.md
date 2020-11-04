@@ -6,7 +6,7 @@ Position robot end-effector as if it were to grasp a cylinder on a table top (as
 
 Using the reference cylinder, assign the axes to the hand.
 
-# Precision Grasp Measurements
+## Precision Grasp Measurements
 
 To measure the hand dimensions on a precision grasp, one must make three measurements at three different finger positions --- which we will use to build a complete span-depth profile of the hand throughout the hand's actuation.
 
@@ -36,6 +36,7 @@ To make these measurements, perform the following steps:
 15. ***Measurement Image Sets 3+:*** Make sure that for every measurement you take a top-down and side-profile image of the hand's pose.
 16. ***Final Steps:*** Plot the span and depth values with span as the x-axis. Plot the Max Span Limit as a dotted line to indicate the how far the hand can open.
 
-![alt Cylindrical Configuration (see second row)](Cylindrical.png)
+### Cylindrical Configuration (See second row for Precision Grasp)
+![alt text](Cylindrical.png)
 
 
