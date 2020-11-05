@@ -1,5 +1,7 @@
 <!--Individuals will be able to submit their own hands to expand the Applied Hand Dimensions data base. -->
 
+### Overview
+
 After the measurements, following the [Instructions](https://github.com/OSUrobotics/Applied-Hand-Dimensions/tree/main/Instructions), have been completed for a new hand the results will be stored in this directory along with the images of the measurments.
 
 <!---
@@ -21,5 +23,7 @@ Images Folder:<br>
 	Stores all of the submitted images for that hand.
 <br>
 <br>
+
+### Future Work
 
 The long term goal is for this repository to become a database containing the measurments for a broad selection of hands. To accomplish this, an application proccess will be added allowing third parties to submit measurements of hands that they wish to add.  This system will be added at the soonest possible date.
