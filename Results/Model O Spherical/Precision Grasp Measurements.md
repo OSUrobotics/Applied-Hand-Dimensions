@@ -1,5 +1,5 @@
 
-# Model O Configuration B Precision Grasp Measurments
+# Model O Spherical Precision Grasp Measurments
 
 
 ### Full Max Span
