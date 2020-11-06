@@ -1,4 +1,4 @@
-# Results Of Model O Configuration A Measurements
+# Results Of Model O Cylindrical Measurements
 
 ### Power Grasp
 <image>
@@ -7,7 +7,7 @@
 <table>
     <thead>
         <tr>
-            <th colspan=7> Model O Configuration A Power Grasp </th>
+            <th colspan=7> Model O Cylindrical Power Grasp </th>
         </tr>
     </thead>
     <tbody>
@@ -65,7 +65,7 @@
 <table>
     <thead>
         <tr>
-            <th colspan=7> Model O Configuration A Precision Grasp </th>
+            <th colspan=7> Model O Cylindrical Precision Grasp </th>
         </tr>
     </thead>
     <tbody>
