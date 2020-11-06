@@ -8,7 +8,7 @@
 <table>
     <thead>
         <tr>
-            <th colspan=7> Model O Configuration B Power Grasp </th>
+            <th colspan=7> Model O Spherical Power Grasp </th>
         </tr>
     </thead>
     <tbody>
@@ -65,7 +65,7 @@
 <table>
     <thead>
         <tr>
-            <th colspan=3> Model O Configuration B Precision Grasp </th>
+            <th colspan=3> Model O Spherical Precision Grasp </th>
         </tr>
     </thead>
     <tbody>
