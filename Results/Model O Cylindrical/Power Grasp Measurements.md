@@ -1,4 +1,4 @@
-# Model O Configuration A Power Grasp Measurments
+# Model O Cylindrical Power Grasp Measurments
 
 
 ### Max Span with Distals at 10 Degrees Inwards
