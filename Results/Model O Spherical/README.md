@@ -1,4 +1,4 @@
-# Results of Model O Configuration B Measurements
+# Results of Model O Spherical Measurements
 
 ### Power Grasp
 <image>
