@@ -1,4 +1,4 @@
-# Model O Configuration A Precision Grasp Measurments
+# Model O Cylindrical Precision Grasp Measurments
 
 
 ### Full Max Span
