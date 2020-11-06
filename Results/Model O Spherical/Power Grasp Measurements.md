@@ -1,4 +1,4 @@
-# Model O Configuration B Power Grasp Measurments
+# Model O Spherical Power Grasp Measurments
 
 
 ### Max Span with Distals at 10 Degrees Inwards
