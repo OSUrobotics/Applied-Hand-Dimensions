@@ -75,7 +75,7 @@
             <th colspan=1>Depth</th>
         </tr>
         <tr>
-            <th colspan=1> Full Max </th>
+            <th colspan=1> Abs. Max </th>
             <td colspan=1> 20.8 </td>
             <td colspan=1> 2.3 </td>
         </tr>
