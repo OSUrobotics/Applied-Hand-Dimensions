@@ -1,7 +1,7 @@
 # Model O Cylindrical Precision Grasp Measurments
 
 
-### Full Max Span
+### Abs. Max Span
 ![Full Max Span](Images/ModelO_ConfigA_Precision_FullMax.png)
 
 Span = 25.3cm
