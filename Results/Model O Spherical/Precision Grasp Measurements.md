@@ -2,29 +2,29 @@
 # Model O Spherical Precision Grasp Measurments
 
 
-### Full Max Span
+### Abs. Max Span
 <img src="Images/ModelO_ConfB_Precision_Max.png" width="400">
 
-Span = 22.6cm
-Depth = 3cm
+Span = 20.8cm
+Depth = 2.3cm
 
 
 ### Max Span with Distals at 30 Degrees
 <img src="Images/ModelO_ConfB_Precision_Max30.png" width="400">
 
-Span = 18.8cm
-Depth = 3.8cm
+Span = 16.8cm
+Depth = 4.2cm
 
 
 ### Mid Span
 <img src="Images/ModelO_ConfB_Precision_Mid.png" width="400">
 
-Span = 15.6cm
+Span = 13.7cm
 Depth = 8.8cm
 
 
 ### Min Span
 <img src="Images/ModelO_ConfB_Precision_Min.png" width="400">
 
-Span = 2.1cm
-Depth = 9.2cm
+Span = 1.2cm
+Depth = 9.8cm
