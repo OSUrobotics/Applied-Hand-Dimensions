@@ -76,23 +76,23 @@
         </tr>
         <tr>
             <th colspan=1> Full Max </th>
-            <td colspan=1> 22.6 </td>
-            <td colspan=1> 3 </td>
+            <td colspan=1> 20.8 </td>
+            <td colspan=1> 2.3 </td>
         </tr>
         <tr>
             <th colspan=1> Max </th>
-            <td colspan=1> 18.8 </td>
-            <td colspan=1> 3.8 </td>
+            <td colspan=1> 16.8 </td>
+            <td colspan=1> 4.2 </td>
         </tr>
         <tr>
             <th colspan=1> Mid </th>
-            <td colspan=1> 15.6 </td>
+            <td colspan=1> 13.7 </td>
             <td colspan=1> 8.8 </td>
         </tr>
         <tr>
             <th colspan=1> Min </th>
-            <td colspan=1> 2.1 </td>
-            <td colspan=1> 9.2 </td>
+            <td colspan=1> 1.3 </td>
+            <td colspan=1> 9.8 </td>
         </tr>
     </tbody>
 </table>
