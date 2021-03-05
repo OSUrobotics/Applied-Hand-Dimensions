@@ -6,7 +6,7 @@
 Distal: Span = 8.5cm Depth = 6.0cm <br>
 Widest: Span = 8.5cm Depth = 4.5cm <br>
 Base: Span = 4.5cm Depth = 0.0cm <br>
-<img src="Images/" width="400"> <img src="Images/" width="375"> <br>
+<img src="Images/Robotiq_2f-85_power_max.png" width="400"> <br>
 <br>
 
 ### Mid Span
@@ -14,7 +14,7 @@ Base: Span = 4.5cm Depth = 0.0cm <br>
 Distal: Span = 1.0cm Depth = 4.5cm <br>
 Widest: Span = 6.0cm Depth = 3.2cm <br>
 Base: Span = 4.0cm Depth = 0.0cm <br>
-<img src="Images/" width="500"> <br>
+<img src="Images/Robotiq_2f-85_power_mid.png" width="500"> <br>
 <br>
 
 ### Min Span
@@ -22,4 +22,4 @@ Base: Span = 4.0cm Depth = 0.0cm <br>
 Distal: Span = 0.0cm Depth = 3.2cm <br>
 Widest: Span = 6.7cm Depth = 3.2cm <br>
 Base: Span = 4.5cm Depth = 0.0cm <br>
-<img src="Images/" width="500"> <br>
+<img src="Images/Robotiq_2f-85_power_min.png" width="500"> <br>

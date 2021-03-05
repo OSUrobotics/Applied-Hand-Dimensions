@@ -2,28 +2,31 @@
 
 
 ### Abs. Max Span
-![Full Max Span](Images/)
+![Full Max Span](Images/Robotiq_2f-85_precision_absmax.png)
 
 Span = 8.5cm
 Depth = 4.5cm
 
 
 ### Max Span with Distals at 30 Degrees
-![Max Span](Images/)
+(Max span is the same as the abs. Max span)
+
+![Max Span](Images/Robotiq_2f-85_precision_max.png)
 
 Span = 8.5cm
 Depth = 4.5cm
 
 
 ### Mid Span
-![Mid Span](Images/)
+![Mid Span](Images/Robotiq_2f-85_precision_mid.png)
 
 Span = 1.0cm
 Depth = 5.5cm
 
 
 ### Min Span
-![Min Span](Images/)
+
+(No min span image provided)
 
 Span = 0.0cm
 Depth = 4.0cm
