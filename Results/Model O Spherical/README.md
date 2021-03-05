@@ -2,7 +2,7 @@
 
 ### Power Grasp
 <image>
-<img src="Images/ModelO_ConfB_Power_ChartV2.png" width="400">
+<img src="Images/ModelO_Spherical_Power_ChartV2.png" width="400">
 </image>
 
 <table>
@@ -59,7 +59,7 @@
 ### Precision Grasp
 
  <image>
-<img src="Images/ModelO_ConfB_Precision_ChartV2.png" width="400">
+<img src="Images/ModelO_Spherical_Precision_ChartV2.png" width="400">
 </image>
 
 <table>
