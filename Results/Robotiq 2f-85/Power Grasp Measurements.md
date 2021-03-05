@@ -1,7 +1,7 @@
 # Robotiq 2f-85 Power Grasp Measurments
 
 
-### Max Span with Distals at 10 Degrees Inwards
+### Max Span
 
 Distal: Span = 8.5cm Depth = 6.0cm <br>
 Widest: Span = 8.5cm Depth = 4.5cm <br>
