@@ -1,24 +1,23 @@
-# Results of Model T42 Measurements
+# Results Of Barrett Measurements
 
 ### Power Grasp
 <image>
-<img src="Images/T42_Power_Chart.png" width="400">
+<img src="Images/" width="400">
 </image>
-
 <table>
     <thead>
         <tr>
-            <th colspan=7> Model T42 Power Grasp </th>
+            <th colspan=7> Barrett Power Grasp </th>
         </tr>
     </thead>
     <tbody>
         <tr>
-            <th rowspan=2> Finger <br> Pose </th>
+            <th rowspan=2> Finger <br> Pose</th>
             <th colspan=2> Distal </th>
             <th colspan=2> Widest </th>
             <th colspan=2> Base </th>
         </tr>
-        <tr>
+        <tr>    
             <th colspan=1> Span </th>
             <th colspan=1>Depth</th>
             <th colspan=1> Span </th>
@@ -28,44 +27,45 @@
         </tr>
         <tr>
             <th colspan=1> Max </th>
-            <td colspan=1> 15.3 </td>
-            <td colspan=1> 6.2 </td>
-            <td colspan=1> 15.9 </td>
-            <td colspan=1> 5.1 </td>
-            <td colspan=1> 4.2 </td>
-            <td colspan=1> 2.3 </td>
+            <td colspan=1> 20.8 </td>
+            <td colspan=1> 3.5 </td>
+            <td colspan=1> 21.5 </td>
+            <td colspan=1> 1.5 </td>
+            <td colspan=1> 9.5 </td>
+            <td colspan=1> 1.2 </td>
         </tr>
         <tr>
             <th colspan=1> Mid </th>
+            <td colspan=1> 9.9 </td>
+            <td colspan=1> 7.2 </td>
+            <td colspan=1> 13.5 </td>
             <td colspan=1> 5.6 </td>
-            <td colspan=1> 10.1 </td>
-            <td colspan=1> 6.5 </td>
-            <td colspan=1> 7.5 </td>
-            <td colspan=1> 4.2 </td>
-            <td colspan=1> 2.3 </td>
+            <td colspan=1> 9.5 </td>
+            <td colspan=1> 1.2 </td>
         </tr>
         <tr>
             <th colspan=1> Min </th>
-            <td colspan=1> 3.1 </td>
-            <td colspan=1> 7.7 </td>
-            <td colspan=1> 7.6 </td>
-            <td colspan=1> 7.9 </td>
-            <td colspan=1> 4.2 </td>
-            <td colspan=1> 2.3 </td>
+            <td colspan=1> 0.0 </td>
+            <td colspan=1> 5.9 </td>
+            <td colspan=1> 5.0 </td>
+            <td colspan=1> 5.1 </td>
+            <td colspan=1> 9.5 </td>
+            <td colspan=1> 1.2 </td>
         </tr>
     </tbody>
 </table>
 
+
 ### Precision Grasp
 
- <image>
-<img src="Images/T42_Precision_Chart.png" width="400">
+<image>
+<img src="Images/" width="400">
 </image>
 
 <table>
     <thead>
         <tr>
-            <th colspan=3> Model T42 Precision Grasp </th>
+            <th colspan=7> Barrett Precision Grasp </th>
         </tr>
     </thead>
     <tbody>
@@ -76,27 +76,28 @@
         </tr>
         <tr>
             <th colspan=1> Abs. Max </th>
-            <td colspan=1> 23.1 </td>
-            <td colspan=1> 4.6 </td>
+            <td colspan=1> 30.8 </td>
+            <td colspan=1> 1.2 </td>
         </tr>
         <tr>
             <th colspan=1> Max </th>
-            <td colspan=1> 19.2 </td>
-            <td colspan=1> 6.8 </td>
+            <td colspan=1> 26.5 </td>
+            <td colspan=1> 2.7 </td>
         </tr>
         <tr>
             <th colspan=1> Mid </th>
-            <td colspan=1> 11.6 </td>
-            <td colspan=1> 9.25 </td>
+            <td colspan=1> 16.7 </td>
+            <td colspan=1> 8.7 </td>
         </tr>
         <tr>
             <th colspan=1> Min </th>
-            <td colspan=1> 1.2 </td>
-            <td colspan=1> 9.7 </td>
+            <td colspan=1> 0.0 </td>
+            <td colspan=1> 9.0 </td>
         </tr>
     </tbody>
 </table>
 <br>
+<br>
 
 ### Width:
-Max= 8.7+cm Min= 3.8cm
+Max= 9.0+cm Min= 4.3cm
