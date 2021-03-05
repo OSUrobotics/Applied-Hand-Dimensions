@@ -8,7 +8,7 @@ Span = 8.5cm
 Depth = 4.5cm
 
 
-### Max Span with Distals at 30 Degrees
+### Max Span
 (Max span is the same as the abs. Max span)
 
 ![Max Span](Images/Robotiq_2f-85_precision_max.png)
