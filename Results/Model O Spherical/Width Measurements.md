@@ -1,4 +1,4 @@
-# Model O Configuration B Width Measurements
+# Model O Spherical Width Measurements
 
 ### Max Width
 

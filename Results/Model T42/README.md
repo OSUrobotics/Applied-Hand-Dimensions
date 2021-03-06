@@ -15,7 +15,7 @@
         <tr>
             <th rowspan=2> Finger <br> Pose </th>
             <th colspan=2> Distal </th>
-            <th colspan=2> Widest </th>
+            <th colspan=2> Mid </th>
             <th colspan=2> Base </th>
         </tr>
         <tr>
@@ -36,7 +36,7 @@
             <td colspan=1> 2.3 </td>
         </tr>
         <tr>
-            <th colspan=1> Mid </th>
+            <th colspan=1> Int </th>
             <td colspan=1> 5.6 </td>
             <td colspan=1> 10.1 </td>
             <td colspan=1> 6.5 </td>
@@ -85,7 +85,7 @@
             <td colspan=1> 6.8 </td>
         </tr>
         <tr>
-            <th colspan=1> Mid </th>
+            <th colspan=1> Int </th>
             <td colspan=1> 11.6 </td>
             <td colspan=1> 9.25 </td>
         </tr>
