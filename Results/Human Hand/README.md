@@ -2,7 +2,7 @@
 
 ### Power Grasp
 <image>
-<img src="Images/" width="400">
+<img src="Images/Human_Hand_Power_Chart.png" width="400">
 </image>
 <table>
     <thead>
@@ -59,7 +59,7 @@
 ### Precision Grasp
 
 <image>
-<img src="Images/" width="400">
+<img src="Images/Human_Hand_Precision_Chart.png" width="400">
 </image>
 
 <table>
