@@ -19,6 +19,12 @@ def read_csv_measurements(hand_name, dims_type):
     max_vals = []
     int_vals = []
     min_vals = []
+    
+    max_width = None
+    min_width = None
+
+    abs_max = None
+
     # dictionary to map row num to value reading, using variables to make it clearer what is what
     vals_dict = {0: max_vals, 1: int_vals, 2: min_vals}
 
@@ -34,13 +40,13 @@ def read_csv_measurements(hand_name, dims_type):
             else:
                 # TODO: pull out extra info like width, absolute max?
                 pass
-            
+
             print(vals_dict[i])
 
     max_vals = vals_dict[0]
     int_vals = vals_dict[1]
     min_vals = vals_dict[2]
-    return max_vals, int_vals, min_vals
+    return max_vals, int_vals, min_vals, (max_width, min_width), abs_max
         
 
 def mirror_measurements(line):
@@ -200,7 +206,8 @@ if __name__ == '__main__':
     dim_type = "power"
     hand = "barrett"
 
-    max_list, int_list, min_list = read_csv_measurements(hand, dim_type)
+    # TODO: get out absolute max and width from csv
+    max_list, int_list, min_list, _, _ = read_csv_measurements(hand, dim_type)
 
     make_dimension_plot(dim_type, hand, 
                         bh_pow_max, bh_pow_int, bh_pow_min, 
