@@ -1,6 +1,7 @@
 # hand dimensions plotting, John Morrow
 import matplotlib.pyplot as plt
 import csv
+import pdb
 
 # hand example - Barrett hand
 bh_pow_max = [(20.8, 3.5), (21.5, 1.5), (9.5, 1.2)]
@@ -61,6 +62,10 @@ def mirror_measurements(line):
     return mirrored_line
 
 
+def mirror_measurement(pt):
+    return [pt[0]*-1, pt[1]] # x, y
+
+
 def shade_region(up_dims, down_dims, shade_color, mirrored_shading=True):
     """
     Fills in region between two set of dimensions. Assumes symmetrical hand, however there is an option to only shade one side
@@ -96,18 +101,30 @@ def shade_region(up_dims, down_dims, shade_color, mirrored_shading=True):
         plt.gca().add_patch(opp_polyg)
 
 
-def plot_joints(max, mid, min, ax):
+def plot_pt_markers(max_list, mid_list, min_list, ax):
     """
     Make scatter points at intermediate pts to make 'joints'. Does not work for multiple intermediate links
     """
-    jt_pts = max[1:] + mid[1:] + min[1:] + \
-        mirror_measurements(max[1:]) + mirror_measurements(mid[1:]) + mirror_measurements(min[1:])
-    for (x, y) in jt_pts:
+    # [test[i] for i in [0,2]]
+    max_pts = [max_list[i] for i in [0,2]]
+    mid_pts = [mid_list[i] for i in [0,2]]
+    min_pts = [min_list[i] for i in [0,2]]
+
+    marker_pts = max_pts + mid_pts + min_pts + \
+        mirror_measurements(max_pts) + mirror_measurements(mid_pts) + mirror_measurements(min_pts)
+    for (x, y) in marker_pts:
         ax.scatter(x,y, edgecolor="black", c="grey", s=100, zorder=100)
+
+    plus_pts = [max_list[1]] + [mid_list[1]] + [min_list[1]] + \
+        [mirror_measurement(max_list[1])] + [mirror_measurement(mid_list[1])] + [mirror_measurement(min_list[1])]
+        # need the extra brackets to enforce pts being grouped together
+
+    for (x, y) in plus_pts:
+        ax.scatter(x,y, marker="P", edgecolor="black", c="grey", s=125, zorder=101)
 
 
 def make_dimension_plot(plot_type, hand_name, max_dims, int_dims, min_dims, 
-                    halve_measurements=False, abs_max=None, 
+                    halve_measurements=False, abs_max=None, width_vals=None, 
                     shade_distal=True, shade_proximal=False, 
                     fig_size=7, y_offset=False, distal_measurement_point=None,
                     save_plot=False, show_plot=True):
@@ -115,7 +132,9 @@ def make_dimension_plot(plot_type, hand_name, max_dims, int_dims, min_dims,
     fig = plt.figure(figsize=(1.5*fig_size, fig_size))
     ax = fig.add_subplot()
 
-    colors = ["#619F60", "#60619F", "#9F6061"]
+    # use https://coolors.co/
+    colors = ["#494276", "#61589D", "#847CB6"]
+    #colors = ["#619F60", "#60619F", "#9F6061"]
     dot_line_colors = ["xkcd:blue grey", "xkcd:blue grey", "xkcd:blue grey"] #["#55B748", "#4855B7", "#B74855"]
     labels = ["max", "int", "min"]
 
@@ -127,7 +146,7 @@ def make_dimension_plot(plot_type, hand_name, max_dims, int_dims, min_dims,
 
     val_sets = [max_dims, int_dims, min_dims]
 
-    plot_joints(max_dims, int_dims, min_dims, ax=ax)
+    plot_pt_markers(max_dims, int_dims, min_dims, ax=ax)
 
     # draw lines of measurements
     for vals, cs, ls in zip(val_sets, colors, labels):
@@ -160,15 +179,15 @@ def make_dimension_plot(plot_type, hand_name, max_dims, int_dims, min_dims,
     if shade_proximal:
         int_pts = [max_dims[1], int_dims[1], min_dims[1]]
         min_pts = [max_dims[2], int_dims[2], min_dims[2]]  # see min_dims, need to make it draw not between min_dims
-        shade_region(int_pts, min_pts, shade_color="xkcd:cream")
+        shade_region(int_pts, min_pts, shade_color="xkcd:pale green")
 
     # draw absolute max span value if given
     if abs_max is not None:
         if not halve_measurements:
-            ax.axvline(abs_max, linestyle="-.", color="black", alpha=0.7)
+            ax.axvline(abs_max, linestyle="-.", color="black", alpha=0.7, label="abs_max")
             ax.axvline(-1*abs_max, linestyle="-.", color="black", alpha=0.7)
         else:
-            ax.axvline(0.5*abs_max, linestyle="-.", color="black", alpha=0.7)
+            ax.axvline(0.5*abs_max, linestyle="-.", color="black", alpha=0.7, label="abs_max")
             ax.axvline(-0.5*abs_max, linestyle="-.", color="black", alpha=0.7)
 
     # plot an indication that there is a difference between the base of the finger and the base of the palm
@@ -183,12 +202,26 @@ def make_dimension_plot(plot_type, hand_name, max_dims, int_dims, min_dims,
             # draw the opposite side as well
             ax.plot([-1*x, -1*x], [0, y], linewidth=7, color="black")
 
-    # TODO: add width measurements into the title
-    if distal_measurement_point is not None:
-        fig.suptitle(f"{hand_name.capitalize()}, {plot_type} grasp dimensions", fontweight='bold', fontsize=16)
-        ax.set_title(f"Distal measurement at {distal_measurement_point} of link.")
+
+    title = f"{hand_name.capitalize()}, {plot_type} grasp dimensions"
+
+    if width_vals is not None:
+        fig.suptitle(title, fontweight='bold', fontsize=16)
+
+        if width_vals[2]:  # width_vals[2] is a boolean which indicates whether max width value is capped or can theoretically go on forever
+            width_modifier = "+"
+        else:
+            width_modifier = ""
+
+        widths = f"Width: {width_vals[1]} - {width_vals[0]}{width_modifier} cm"
+        ax.set_title(widths)
     else:
-        ax.set_title(f"{hand_name.capitalize()}, {plot_type} grasp dimensions", fontweight='bold', fontsize=16)
+        ax.set_title(title)
+
+
+    if distal_measurement_point is not None:
+        subtitle = f"* Distal measurement at {distal_measurement_point} of link."
+        ax.text(0.6, -0.1, subtitle, transform=ax.transAxes, fontsize=10)
 
     plt.legend(title="Finger Configs")  # TODO: maybe set alpha to 1 for legend?
 
@@ -214,4 +247,6 @@ if __name__ == '__main__':
                         shade_distal=True, shade_proximal=True, 
                         halve_measurements=True, y_offset=True, 
                         distal_measurement_point="midpoint",
-                        abs_max=bh_prec_abs_max[0])
+                        abs_max=bh_prec_abs_max[0], 
+                        width_vals=[50, 1, True]
+                        )
