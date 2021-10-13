@@ -35,14 +35,22 @@ def read_csv_measurements(hand_name, dims_type):
         for i, row in enumerate(dims_reader):
             # every two measurements is a span-depth pair
             if i in [0, 1, 2]:
-                vals_dict[i].append((row[0], row[1]))
-                vals_dict[i].append((row[2], row[3]))
-                vals_dict[i].append((row[4], row[5]))
-            else:
-                # TODO: pull out extra info like width, absolute max?
-                pass
+                vals_dict[i].append((float(row[0]), float(row[1]) ))
+                vals_dict[i].append((float(row[2]), float(row[3]) ))
+                vals_dict[i].append((float(row[4]), float(row[5]) ))
+                print(vals_dict[i])
 
-            print(vals_dict[i])
+            elif i == 3:
+                # TODO: need to test this logic
+                vals = len(row)
+                if vals > 0:
+                    max_width = float(row[0])
+                if vals > 1:
+                    min_width = float(row[1])
+                if vals > 2:
+                    abs_max = float(row[2])
+            else:
+                continue  # if there are more rows, we want to just ignore them
 
     max_vals = vals_dict[0]
     int_vals = vals_dict[1]
@@ -217,7 +225,7 @@ def make_dimension_plot(plot_type, hand_name, max_dims, int_dims, min_dims,
         else:
             width_modifier = ""
 
-        widths = f"Width: {width_vals[1]} - {width_vals[0]}{width_modifier} cm"
+        widths = f"Width: {width_vals[1]} - {width_vals[0]}{width_modifier} mm"
         ax.set_title(widths)
     else:
         ax.set_title(title)
@@ -246,16 +254,16 @@ if __name__ == '__main__':
     dim_type = "power"
     hand = "barrett"
 
-    # TODO: get out absolute max and width from csv
-    max_list, int_list, min_list, _, _ = read_csv_measurements(hand, dim_type)
+    max_list, int_list, min_list, (max_w, min_w), absmax = read_csv_measurements(hand, dim_type)
+    print(f"{max_w}, {min_w}")
 
     make_dimension_plot(dim_type, hand, 
                         bh_pow_max, bh_pow_int, bh_pow_min, 
                         shade_distal=True, shade_proximal=True, 
                         halve_measurements=True, y_offset=True, 
                         distal_measurement_point="midpoint",
-                        abs_max=bh_prec_abs_max[0], 
-                        width_vals=[50, 1, True]
+                        abs_max=absmax, 
+                        width_vals=[max_w, min_w, True]
                         )
-                        
+
     # TODO: plot an example object onto the plot
