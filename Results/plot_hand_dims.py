@@ -120,7 +120,7 @@ def plot_pt_markers(max_list, mid_list, min_list, ax):
         # need the extra brackets to enforce pts being grouped together
 
     for (x, y) in plus_pts:
-        ax.scatter(x,y, marker="P", edgecolor="black", c="grey", s=125, zorder=101)
+        ax.scatter(x,y, marker="P", edgecolor="black", c="xkcd:light grey", s=125, zorder=101)
 
 
 def make_dimension_plot(plot_type, hand_name, max_dims, int_dims, min_dims, 
@@ -129,10 +129,10 @@ def make_dimension_plot(plot_type, hand_name, max_dims, int_dims, min_dims,
                     fig_size=7, y_offset=False, distal_measurement_point=None,
                     save_plot=False, show_plot=True):
     # TODO: make sure aspect ratio looks nicely with 
-    fig = plt.figure(figsize=(1.5*fig_size, fig_size))
+    fig = plt.figure(figsize=(1.5*fig_size, 0.6*fig_size))
     ax = fig.add_subplot()
 
-    # use https://coolors.co/
+    # used https://coolors.co/
     colors = ["#494276", "#61589D", "#847CB6"]
     #colors = ["#619F60", "#60619F", "#9F6061"]
     dot_line_colors = ["xkcd:blue grey", "xkcd:blue grey", "xkcd:blue grey"] #["#55B748", "#4855B7", "#B74855"]
@@ -157,6 +157,7 @@ def make_dimension_plot(plot_type, hand_name, max_dims, int_dims, min_dims,
         opp_spans = [-1*vals[0][0], -1*vals[1][0], -1*vals[2][0]]
         ax.plot(opp_spans, depths, color=cs, linewidth=3)
 
+
     # draw lines between similar levels of measurement (at distal (max), int, min)
     for (a, b), (c, d), (e, f), cs in zip(max_dims, int_dims, min_dims, dot_line_colors):
         sim_spans = [a, c, e] #, -1*e, -1*c, -1*a]  # TODO: might have to play around with this one
@@ -168,6 +169,7 @@ def make_dimension_plot(plot_type, hand_name, max_dims, int_dims, min_dims,
         opp_sim_depths = list(reversed(sim_depths))
         ax.plot(opp_sim_spans, opp_sim_depths, linestyle="dotted", alpha=0.7, color=cs)
 
+
     # TODO: region shading only works currently for 2 link fingers
     # shade the region between the distal and the intermediate points
     if shade_distal:
@@ -175,11 +177,13 @@ def make_dimension_plot(plot_type, hand_name, max_dims, int_dims, min_dims,
         int_pts = [max_dims[1], int_dims[1], min_dims[1]]  # TODO: make it not plot between the distal links
         shade_region(dist_pts, int_pts, shade_color="xkcd:light green")
 
+
     # shade the region between the proximal and the intermediate points
     if shade_proximal:
         int_pts = [max_dims[1], int_dims[1], min_dims[1]]
         min_pts = [max_dims[2], int_dims[2], min_dims[2]]  # see min_dims, need to make it draw not between min_dims
         shade_region(int_pts, min_pts, shade_color="xkcd:pale green")
+
 
     # draw absolute max span value if given
     if abs_max is not None:
@@ -189,6 +193,7 @@ def make_dimension_plot(plot_type, hand_name, max_dims, int_dims, min_dims,
         else:
             ax.axvline(0.5*abs_max, linestyle="-.", color="black", alpha=0.7, label="abs_max")
             ax.axvline(-0.5*abs_max, linestyle="-.", color="black", alpha=0.7)
+
 
     # plot an indication that there is a difference between the base of the finger and the base of the palm
     if y_offset:
@@ -204,7 +209,6 @@ def make_dimension_plot(plot_type, hand_name, max_dims, int_dims, min_dims,
 
 
     title = f"{hand_name.capitalize()}, {plot_type} grasp dimensions"
-
     if width_vals is not None:
         fig.suptitle(title, fontweight='bold', fontsize=16)
 
@@ -221,15 +225,18 @@ def make_dimension_plot(plot_type, hand_name, max_dims, int_dims, min_dims,
 
     if distal_measurement_point is not None:
         subtitle = f"* Distal measurement at {distal_measurement_point} of link."
-        ax.text(0.6, -0.1, subtitle, transform=ax.transAxes, fontsize=10)
+        ax.text(0.1, -0.25, subtitle, transform=ax.transAxes, fontsize=10)
+
 
     plt.legend(title="Finger Configs")  # TODO: maybe set alpha to 1 for legend?
+    ax.set_aspect('equal', adjustable='box')
 
     if save_plot:
         plt.savefig(f"{plot_type}_dimensions_{hand_name}.jpg", format='jpg')
         # name -> tuple: subj, hand  names
         print("Figure saved.")
         print(" ")
+
 
     if show_plot:
         plt.show()
@@ -250,3 +257,5 @@ if __name__ == '__main__':
                         abs_max=bh_prec_abs_max[0], 
                         width_vals=[50, 1, True]
                         )
+                        
+    # TODO: plot an example object onto the plot
