@@ -43,12 +43,17 @@ def read_csv_measurements(hand_name, dims_type):
             elif i == 3:
                 # TODO: need to test this logic
                 vals = len(row)
-                if vals > 0:
+                if vals > 0:  # I do it like this so these rows can be optional
                     max_width = float(row[0])
                 if vals > 1:
                     min_width = float(row[1])
-                if vals > 2:
-                    abs_max = float(row[2])
+            elif i==4:
+                vals = len(row)
+                if vals > 0:
+                    abs_max = float(row[0])
+                if vals > 1:
+                    abs_max_depth = float(row[1])  # TODO: for right now, we don't do anything
+
             else:
                 continue  # if there are more rows, we want to just ignore them
 
