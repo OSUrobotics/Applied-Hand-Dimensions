@@ -15,7 +15,7 @@ bh_prec_abs_max = (30.8, 1.2)
 
 
 def read_csv_measurements(hand_name, dims_type):
-    file_loc = f"{hand_name.capitalize()}/{hand_name}_{dims_type}_dims.csv"
+    file_loc = f"{hand_name}/{hand_name}_{dims_type}_dims.csv"
 
     max_vals = []
     int_vals = []
@@ -255,20 +255,44 @@ def make_dimension_plot(plot_type, hand_name, max_dims, int_dims, min_dims,
         plt.show()
 
 
-if __name__ == '__main__':
-    dim_type = "power"
-    hand = "barrett"
-
+def plot_single_hand(hand_name, dim_type, show_plot=True, save_plot=False):
     max_list, int_list, min_list, (max_w, min_w), absmax = read_csv_measurements(hand, dim_type)
-    print(f"{max_w}, {min_w}")
 
     make_dimension_plot(dim_type, hand, 
-                        bh_pow_max, bh_pow_int, bh_pow_min, 
+                        max_list, int_list, min_list, 
                         shade_distal=True, shade_proximal=True, 
                         halve_measurements=True, y_offset=True, 
                         distal_measurement_point="midpoint",
                         abs_max=absmax, 
-                        width_vals=[max_w, min_w, True]
+                        width_vals=[max_w, min_w, True],
+                        show_plot=False,
+                        save_plot=True
+                        )
+
+
+def save_multiple_hand_dims(hand_names, dim_types):
+    for h in hand_names:
+        for d in dim_types:
+            plot_single_hand(h, d, show_plot=False, save_plot=True)
+
+
+if __name__ == '__main__':
+    # options: precision, power
+    dim_type = "precision"
+    # options: barrett, human, jaco2, mO_cylindrical, mO_spherical, mt42, robotiq2f85
+    hand = "barrett"
+
+    max_list, int_list, min_list, (max_w, min_w), absmax = read_csv_measurements(hand, dim_type)
+
+    make_dimension_plot(dim_type, hand, 
+                        max_list, int_list, min_list, 
+                        shade_distal=True, shade_proximal=True, 
+                        halve_measurements=True, y_offset=True, 
+                        distal_measurement_point="midpoint",
+                        abs_max=absmax, 
+                        width_vals=[max_w, min_w, True],
+                        show_plot=False,
+                        save_plot=True
                         )
 
     # TODO: plot an example object onto the plot
