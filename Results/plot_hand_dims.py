@@ -136,14 +136,13 @@ def plot_pt_markers(max_list, mid_list, min_list, ax):
         ax.scatter(x,y, marker="P", edgecolor="black", c="xkcd:light grey", s=125, zorder=101)
 
 
-def make_dimension_plot(plot_type, hand_name, max_dims, int_dims, min_dims, 
+def make_dimension_plot(plot_type, hand_name, 
+                    max_dims, int_dims, min_dims,
+                    fig, ax,
                     halve_measurements=False, abs_max=None, width_vals=None, 
                     shade_distal=True, shade_proximal=False, 
                     fig_size=7, y_offset=False, distal_measurement_point=None,
                     save_plot=False, show_plot=True):
-    # TODO: make sure aspect ratio looks nicely with 
-    fig = plt.figure(figsize=(1.5*fig_size, 0.6*fig_size))
-    ax = fig.add_subplot()
 
     # used https://coolors.co/
     colors = ["#494276", "#61589D", "#847CB6"]
@@ -230,7 +229,7 @@ def make_dimension_plot(plot_type, hand_name, max_dims, int_dims, min_dims,
         else:
             width_modifier = ""
 
-        widths = f"Width: {width_vals[1]} - {width_vals[0]}{width_modifier} mm"
+        widths = f"Width: {width_vals[1]} - {width_vals[0]}{width_modifier} cm"
         ax.set_title(widths)
     else:
         ax.set_title(title)
@@ -255,11 +254,16 @@ def make_dimension_plot(plot_type, hand_name, max_dims, int_dims, min_dims,
         plt.show()
 
 
-def plot_single_hand(hand_name, dim_type, show_plot=True, save_plot=False):
+def plot_single_hand(hand_name, dim_type, fig_size=7, show_plot=True, save_plot=False):
     max_list, int_list, min_list, (max_w, min_w), absmax = read_csv_measurements(hand, dim_type)
+
+    # TODO: make sure aspect ratio looks nicely with 
+    fig = plt.figure(figsize=(1.5*fig_size, 0.6*fig_size))
+    ax = fig.add_subplot()
 
     make_dimension_plot(dim_type, hand, 
                         max_list, int_list, min_list, 
+                        fig=fig, ax=ax,
                         shade_distal=True, shade_proximal=True, 
                         halve_measurements=True, y_offset=True, 
                         distal_measurement_point="midpoint",
@@ -276,23 +280,85 @@ def save_multiple_hand_dims(hand_names, dim_types):
             plot_single_hand(h, d, show_plot=False, save_plot=True)
 
 
+def plots_both_types(hand_name, fig_size=20, save_plot=False, show_plot=True):
+    # TODO: make sure aspect ratio looks nicely with 
+    fig = plt.figure(figsize=(1*fig_size, 0.25*fig_size)) # TODO: comes out weird with the two plots
+    width_inf = True  # TODO: fix here!
+
+    max_list, int_list, min_list, (max_w, min_w), absmax = read_csv_measurements(hand, "precision")
+    ax1 = fig.add_subplot(1,2,1)
+    make_dimension_plot(dim_type, hand, 
+                        max_list, int_list, min_list, 
+                        fig=fig, ax=ax1,
+                        shade_distal=True, shade_proximal=True, 
+                        halve_measurements=True, y_offset=True, 
+                        distal_measurement_point="midpoint",
+                        abs_max=absmax, 
+                        width_vals=[max_w, min_w, width_inf], # TODO: build width_inf into csv file
+                        show_plot=False,
+                        save_plot=False
+                        )  # TODO: make a text object for width
+
+    max_list, int_list, min_list, (max_w, min_w), absmax = read_csv_measurements(hand, "power")
+    ax2 = fig.add_subplot(1,2,2)
+    make_dimension_plot(dim_type, hand, 
+                        max_list, int_list, min_list, 
+                        fig=fig, ax=ax2,
+                        shade_distal=True, shade_proximal=True, 
+                        halve_measurements=True, y_offset=True, 
+                        distal_measurement_point="midpoint",
+                        abs_max=absmax, 
+                        width_vals=[max_w, min_w, width_inf], 
+                        show_plot=False,
+                        save_plot=False
+                        )
+
+    # overwrite the titling from the make_dimension_plot
+    fig.suptitle(f"{hand_name.capitalize()} Measurements, Power and Precision", fontweight='bold', fontsize=16)
+    ax1.set_title("Precision Measurements (cm)")
+    ax2.set_title("Power Measurements (cm)")
+
+
+    # if distal_measurement_point is not None:
+    #     subtitle = f"* Distal measurement at {distal_measurement_point} of link."
+    #     ax.text(0.1, -0.25, subtitle, transform=ax.transAxes, fontsize=10)
+
+
+    if save_plot:
+        plt.savefig(f"both_dimensions_{hand_name}.jpg", format='jpg')
+        # name -> tuple: subj, hand  names
+        print("Figure saved.")
+        print(" ")
+
+    if show_plot:
+        plt.show()
+
+
+def save_hands_plots(hand_names):
+    for h in hand_names:
+        plots_both_types(h, show_plot=False, save_plot=True)
+
+
 if __name__ == '__main__':
     # options: precision, power
     dim_type = "precision"
     # options: barrett, human, jaco2, mO_cylindrical, mO_spherical, mt42, robotiq2f85
     hand = "barrett"
 
-    max_list, int_list, min_list, (max_w, min_w), absmax = read_csv_measurements(hand, dim_type)
+    # max_list, int_list, min_list, (max_w, min_w), absmax = read_csv_measurements(hand, dim_type)
 
-    make_dimension_plot(dim_type, hand, 
-                        max_list, int_list, min_list, 
-                        shade_distal=True, shade_proximal=True, 
-                        halve_measurements=True, y_offset=True, 
-                        distal_measurement_point="midpoint",
-                        abs_max=absmax, 
-                        width_vals=[max_w, min_w, True],
-                        show_plot=False,
-                        save_plot=True
-                        )
+    # make_dimension_plot(dim_type, hand, 
+    #                     max_list, int_list, min_list, 
+    #                     shade_distal=True, shade_proximal=True, 
+    #                     halve_measurements=True, y_offset=True, 
+    #                     distal_measurement_point="midpoint",
+    #                     abs_max=absmax, 
+    #                     width_vals=[max_w, min_w, True],
+    #                     show_plot=False,
+    #                     save_plot=True
+    #                     )
+
+    #plots_both_types(hand)
+    save_hands_plots(["barrett", "human", "jaco2", "mO_cylindrical", "mO_spherical", "mt42", "robotiq2f85"])
 
     # TODO: plot an example object onto the plot
