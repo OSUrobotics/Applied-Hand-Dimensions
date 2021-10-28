@@ -16,6 +16,7 @@ bh_prec_abs_max = (30.8, 1.2)
 
 def read_csv_measurements(hand_name, dims_type):
     file_loc = f"{hand_name}/{hand_name}_{dims_type}_dims.csv"
+    print(file_loc)
 
     max_vals = []
     int_vals = []
@@ -38,7 +39,7 @@ def read_csv_measurements(hand_name, dims_type):
                 vals_dict[i].append((float(row[0]), float(row[1]) ))
                 vals_dict[i].append((float(row[2]), float(row[3]) ))
                 vals_dict[i].append((float(row[4]), float(row[5]) ))
-                print(vals_dict[i])
+                # print(vals_dict[i])
 
             elif i == 3:
                 # TODO: need to test this logic
@@ -237,7 +238,7 @@ def make_dimension_plot(plot_type, hand_name,
 
     if distal_measurement_point is not None:
         subtitle = f"* Distal measurement at {distal_measurement_point} of link."
-        ax.text(0.1, -0.25, subtitle, transform=ax.transAxes, fontsize=10)
+        ax.text(0.1, -0.15, subtitle, transform=ax.transAxes, fontsize=10)
 
 
     plt.legend(title="Finger Configs")  # TODO: maybe set alpha to 1 for legend?
@@ -269,8 +270,8 @@ def plot_single_hand(hand_name, dim_type, fig_size=7, show_plot=True, save_plot=
                         distal_measurement_point="midpoint",
                         abs_max=absmax, 
                         width_vals=[max_w, min_w, True],
-                        show_plot=False,
-                        save_plot=True
+                        show_plot=show_plot,
+                        save_plot=save_plot
                         )
 
 
@@ -362,3 +363,6 @@ if __name__ == '__main__':
     save_hands_plots(["barrett", "human", "jaco2", "mO_cylindrical", "mO_spherical", "mt42", "robotiq2f85"])
 
     # TODO: plot an example object onto the plot
+
+
+    # # TODO: plot an example object onto the plot
