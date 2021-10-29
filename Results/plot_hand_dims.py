@@ -286,9 +286,10 @@ def plots_both_types(hand_name, fig_size=20, save_plot=False, show_plot=True):
     fig = plt.figure(figsize=(1*fig_size, 0.25*fig_size)) # TODO: comes out weird with the two plots
     width_inf = True  # TODO: fix here!
 
-    max_list, int_list, min_list, (max_w, min_w), absmax = read_csv_measurements(hand, "precision")
+    dim_type = "precision"
+    max_list, int_list, min_list, (max_w, min_w), absmax = read_csv_measurements(hand_name, dim_type)
     ax1 = fig.add_subplot(1,2,1)
-    make_dimension_plot(dim_type, hand, 
+    make_dimension_plot(dim_type, hand_name, 
                         max_list, int_list, min_list, 
                         fig=fig, ax=ax1,
                         shade_distal=True, shade_proximal=True, 
@@ -300,9 +301,10 @@ def plots_both_types(hand_name, fig_size=20, save_plot=False, show_plot=True):
                         save_plot=False
                         )  # TODO: make a text object for width
 
-    max_list, int_list, min_list, (max_w, min_w), absmax = read_csv_measurements(hand, "power")
+    dim_type = "power"
+    max_list, int_list, min_list, (max_w, min_w), absmax = read_csv_measurements(hand_name, dim_type)
     ax2 = fig.add_subplot(1,2,2)
-    make_dimension_plot(dim_type, hand, 
+    make_dimension_plot(dim_type, hand_name, 
                         max_list, int_list, min_list, 
                         fig=fig, ax=ax2,
                         shade_distal=True, shade_proximal=True, 
@@ -337,14 +339,15 @@ def plots_both_types(hand_name, fig_size=20, save_plot=False, show_plot=True):
 
 def save_hands_plots(hand_names):
     for h in hand_names:
+        print(h)
         plots_both_types(h, show_plot=False, save_plot=True)
 
 
 if __name__ == '__main__':
     # options: precision, power
-    dim_type = "precision"
+    # dim_type = "precision"
     # options: barrett, human, jaco2, mO_cylindrical, mO_spherical, mt42, robotiq2f85
-    hand = "barrett"
+    # hand = "barrett"
 
     # max_list, int_list, min_list, (max_w, min_w), absmax = read_csv_measurements(hand, dim_type)
 
