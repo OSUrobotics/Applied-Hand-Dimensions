@@ -426,43 +426,11 @@ class HandDims:
         else:
             thresholds = custom_thresholds
 
-<<<<<<< Updated upstream
-    dim_type = "precision"
-    max_list, int_list, min_list, (max_w, min_w), absmax = read_csv_measurements(hand_name, dim_type)
-    ax1 = fig.add_subplot(1,2,1)
-    make_dimension_plot(dim_type, hand_name, 
-                        max_list, int_list, min_list, 
-                        fig=fig, ax=ax1,
-                        shade_distal=True, shade_proximal=True, 
-                        halve_measurements=True, y_offset=True, 
-                        distal_measurement_point="midpoint",
-                        abs_max=absmax, 
-                        width_vals=[max_w, min_w, width_inf], # TODO: build width_inf into csv file
-                        show_plot=False,
-                        save_plot=False
-                        )  # TODO: make a text object for width
-
-    dim_type = "power"
-    max_list, int_list, min_list, (max_w, min_w), absmax = read_csv_measurements(hand_name, dim_type)
-    ax2 = fig.add_subplot(1,2,2)
-    make_dimension_plot(dim_type, hand_name, 
-                        max_list, int_list, min_list, 
-                        fig=fig, ax=ax2,
-                        shade_distal=True, shade_proximal=True, 
-                        halve_measurements=True, y_offset=True, 
-                        distal_measurement_point="midpoint",
-                        abs_max=absmax, 
-                        width_vals=[max_w, min_w, width_inf], 
-                        show_plot=False,
-                        save_plot=False
-                        )
-=======
         # get distal assessment
         dist_max = self.get_dim_pair("max", "distal", unhalve_measurement=True)[0]
         dist_min = self.get_dim_pair("min", "distal", unhalve_measurement=True)[0]
         dist_rel_size = rel_size_assessment(object_span, dist_max, dist_min, rel_thresholds=thresholds)
         print(dist_rel_size)
->>>>>>> Stashed changes
 
         # get mid assessment
         mid_max = self.get_dim_pair("max", "mid", unhalve_measurement=True)[0]
@@ -497,30 +465,19 @@ class HandDims:
             print("Figure saved.")
             print(" ")
 
-<<<<<<< Updated upstream
-def save_hands_plots(hand_names):
-    for h in hand_names:
-        print(h)
-        plots_both_types(h, show_plot=False, save_plot=True)
-=======
         if show_plot:
             plt.show()
->>>>>>> Stashed changes
 
 
 if __name__ == '__main__':
     all_hands = ["barrett", "human", "jaco2", "mO_cylindrical", "mO_spherical", "mt42", "robotiq2f85"]
 
     # options: precision, power
-    # dim_type = "precision"
+    dim_type = "precision"
     # options: barrett, human, jaco2, mO_cylindrical, mO_spherical, mt42, robotiq2f85
-<<<<<<< Updated upstream
-    # hand = "barrett"
-=======
     hand = "barrett"
     # object dimension you want to test
     obj_dim = 10
->>>>>>> Stashed changes
 
     dims = HandDims(hand, dim_type, inf_width=True, halve_measurements=True, distal_measurement="midpoint")
     _, ax = dims.plot_dims(show_plot=False, save_plot=False)
