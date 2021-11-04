@@ -446,8 +446,9 @@ class HandDims:
 
         return dist_rel_size, mid_rel_size, min_rel_size
 
-    def plot_object(self, plot_ax, plot_depth, span_adjust, object_span, object_depth, obj_angle=0,
+    def plot_object(self, plot_ax, plot_depth, span_adjust, object_span, object_depth, obj_angle=0, obj_name=None,
                     show_plot=True, save_plot=False):
+        # TODO: add ability to add the object's name into the plot title
         rect_depth = plot_depth * (self.max_depth - self.get_dim_pair("min", "base")[1])
         rect_bot = rect_depth + self.get_dim_pair("min", "base")[1]  # start at the base link depth, go from there
 
@@ -475,15 +476,16 @@ if __name__ == '__main__':
     # options: precision, power
     dim_type = "precision"
     # options: barrett, human, jaco2, mO_cylindrical, mO_spherical, mt42, robotiq2f85
-    hand = "barrett"
+    hand = "mt42"
     # object dimension you want to test
-    obj_dim = 10
+    obj_dim = 6.45
 
-    dims = HandDims(hand, dim_type, inf_width=True, halve_measurements=True, distal_measurement="midpoint")
-    _, ax = dims.plot_dims(show_plot=False, save_plot=False)
-    dims.plot_object(ax, plot_depth=0.1, span_adjust=0,
-                     object_span=10, object_depth=4,
-                     obj_angle=0, show_plot=True, save_plot=False)
+    # dims = HandDims(hand, dim_type, inf_width=True, halve_measurements=True, distal_measurement="midpoint")
+    # dims.size_object(obj_dim)
+    # _, ax = dims.plot_dims(show_plot=False, save_plot=False)
+    # dims.plot_object(ax, plot_depth=0.9, span_adjust=0,
+    #                  object_span=obj_dim, object_depth=4,
+    #                  obj_angle=0, show_plot=True, save_plot=False)
 
     # print( rel_size_assessment(3, 11, 5, [33, 66]) ) # tS
     # print( rel_size_assessment(6, 11, 5, [33, 66]) ) # S
@@ -491,7 +493,7 @@ if __name__ == '__main__':
     # print( rel_size_assessment(10, 11, 5, [33, 66]) ) # L
     # print( rel_size_assessment(15, 11, 5, [33, 66]) ) # tL
 
-    # plots_both_types(hand)
+    plots_both_types(hand)
 
     # obj_rel_sizes(all_hands, dim_type, obj_dim)
 
