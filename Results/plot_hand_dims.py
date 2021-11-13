@@ -1,6 +1,6 @@
 # hand dimensions plotting, John Morrow
 import matplotlib.pyplot as plt
-from matplotlib.patches import Rectangle
+from matplotlib.patches import Rectangle, Circle
 import csv
 import pdb
 
@@ -308,20 +308,39 @@ class HandDims:
         for (x, y) in plus_pts:
             ax.scatter(x, y, marker="P", edgecolor="black", c="xkcd:light grey", s=125, zorder=101)
 
-    def plot_dims(self, subplot_fig=None, subplot_ax=None, fig_size=10, 
+    def draw_palm(self, ax):
+        # get the base coordinates (getting all of them just in case the proximal-palm joint moves)
+        max_palm = self.get_dim_pair("max", "base")
+        int_palm = self.get_dim_pair("int", "base")
+        min_palm = self.get_dim_pair("min", "base")
+
+        for (x,y) in [max_palm, int_palm, min_palm]:
+            # plot the line representing the palm
+            if self.halve:
+                ax.plot([-0.5 * x, 0.5 * x], [0, 0], linewidth=7, color="black")
+            else:
+                ax.plot([-1 * x, 1 * x], [0, 0], linewidth=7, color="black")
+
+    def plot_dims(self, subplot_fig=None, subplot_ax=None,
+                  fig_size=10, fig_size_ratio=None,
                   plt_xlims=None, plt_ylims=None, tick_font_size=16, 
-                  show_plot=True, save_plot=False):
+                  show_legend=True, show_plot=True, save_plot=False):
+
+        if fig_size_ratio is None:
+            fig_size_ratio = [1.25, 0.45]
+
         if subplot_ax is not None and subplot_fig is not None:
             fig = subplot_fig
             ax = subplot_ax
         else:
-            fig = plt.figure(figsize=(1.5*fig_size, 0.6*fig_size))
+            fig = plt.figure(figsize=(fig_size_ratio[0]*fig_size, fig_size_ratio[1]*fig_size))
             ax = fig.add_subplot()
 
         self._make_dimension_plot(fig=fig, ax=ax,
                             shade_distal=True, shade_proximal=True, y_offset=True,
                             width_vals=[self.widths[0], self.widths[1], True],
                             plt_xlims=plt_xlims, plt_ylims=plt_ylims, tick_font_size=tick_font_size,
+                            show_legend=show_legend,
                             show_plot=show_plot,
                             save_plot=save_plot
                             )
@@ -331,7 +350,8 @@ class HandDims:
     def _make_dimension_plot(self, fig, ax, width_vals=None,
                             shade_distal=True, shade_proximal=False,
                             plt_xlims=None, plt_ylims=None, tick_font_size=16,
-                            y_offset=False, save_plot=False, show_plot=True):
+                            y_offset=False,
+                            show_legend=True, save_plot=False, show_plot=True):
 
         # used https://coolors.co/
         colors = ["#494276", "#61589D", "#847CB6"]
@@ -406,9 +426,13 @@ class HandDims:
                 # draw the opposite side as well
                 ax.plot([-1 * x, -1 * x], [0, y], linewidth=7, color="black")
 
+        self.draw_palm(ax=ax)
+
         title = f"{self.hand.capitalize()}, {self.dim_type} grasp dimensions"
 
-        if width_vals is not None:
+        if None in self.widths:
+            ax.set_title(title)
+        else:
             fig.suptitle(title, fontweight='bold', fontsize=16)
 
             if width_vals[2]:  # width_vals[2] is a boolean which indicates whether max width value is capped or can theoretically go on forever
@@ -418,8 +442,6 @@ class HandDims:
 
             widths = f"Width: {width_vals[1]} - {width_vals[0]}{width_modifier} cm"
             ax.set_title(widths)
-        else:
-            ax.set_title(title)
 
         if self.distal_dim_point is not None:
             subtitle = f"* Distal measurement at {self.distal_dim_point} of link."
@@ -433,7 +455,8 @@ class HandDims:
         plt.rc('xtick', labelsize=tick_font_size)
         plt.rc('ytick', labelsize=tick_font_size)
 
-        plt.legend(title="Finger Configs")  # TODO: maybe set alpha to 1 for legend?
+        if show_legend:
+            plt.legend(title="Finger Configs")  # TODO: maybe set alpha to 1 for legend?
         ax.set_aspect('equal', adjustable='box')
 
         if save_plot:
@@ -475,22 +498,46 @@ class HandDims:
 
         return dist_rel_size, mid_rel_size, min_rel_size
 
-    def plot_object(self, plot_ax, plot_depth, span_adjust, object_span, object_depth, obj_angle=0, obj_name=None,
+    def plot_object(self, plot_fig, plot_ax, plot_depth, span_adjust,
+                    object_span, object_depth, obj_angle=0,
+                    obj_name=None, obj_shape="rectangle",
                     show_plot=True, save_plot=False):
         # TODO: add ability to add the object's name into the plot title
-        rect_depth = plot_depth * (self.max_depth - self.get_dim_pair("min", "base")[1])
-        rect_bot = rect_depth + self.get_dim_pair("min", "base")[1]  # start at the base link depth, go from there
 
-        rect_left = -0.5 * object_span + span_adjust  # -1 object_span centers rectangle, span adjust shifts it around
+        if obj_shape == "circle":
+            circ_depth = plot_depth * (self.max_depth - self.get_dim_pair("min", "base")[1])
+            circ_bot = circ_depth + object_span/2.0
+            shape = Circle((0, circ_bot), object_span/2.0,
+                           edgecolor='xkcd:burnt orange',
+                           facecolor='none',
+                           lw=2
+                           )
+        else:
+            rect_depth = plot_depth * (self.max_depth - self.get_dim_pair("min", "base")[1])
+            rect_bot = rect_depth + self.get_dim_pair("min", "base")[1]  # start at the base link depth, go from there
 
-        plot_ax.add_patch(Rectangle((rect_left, rect_bot), object_span, object_depth, angle=obj_angle,
+            rect_left = -0.5 * object_span + span_adjust  # -1 object_span centers rectangle, span adjust shifts it around
+
+            shape = Rectangle((rect_left, rect_bot), object_span, object_depth,
+                                    angle=obj_angle,
                                     edgecolor='xkcd:burnt orange',
                                     facecolor='none',
                                     lw=2
-                                    ))
+                                    )
+
+        plot_ax.add_patch(shape)
+
+        obj_plot_title = f"{self.hand.capitalize()}, {self.dim_type} dims, {obj_name}"
+        if None in self.widths:
+            ax.set_title(obj_plot_title)
+        else:
+            plot_fig.suptitle(obj_plot_title, fontweight='bold', fontsize=16)
 
         if save_plot:
-            plt.savefig(f"{self.dim_type}_dimensions_{self.hand}_w_obj.jpg", format='jpg')
+            if obj_name is None:
+                plt.savefig(f"{self.dim_type}_dims_{self.hand}_w_obj.jpg", format='jpg')
+            else:
+                plt.savefig(f"{self.dim_type}_dims_{self.hand}_w_{obj_name}.jpg", format='jpg')
             # name -> tuple: subj, hand  names
             print("Figure saved.")
             print(" ")
@@ -502,21 +549,31 @@ class HandDims:
 if __name__ == '__main__':
     all_hands = ["barrett", "human", "jaco2", "mO_cylindrical", "mO_spherical", "mt42", "robotiq2f85"]
     all_obj_spans = [7.467, 6.458, 4.048, 4.581, 3.41, 2.749, 5.106, 3.474, 4.496, 7.36, 5.311, 3.449, 12.2, 12.498, 6.413, 2.3]
+    obj_size = {"Apple": [7.36, 0, "circle"], "Pitcher":[12.2, 0, "circle"], "Pudding":[3.41, 8.77, "rectangle"]}
 
-    # options: precision, power
-    dim_type = "power"
     # options: barrett, human, jaco2, mO_cylindrical, mO_spherical, mt42, robotiq2f85
     hand = "barrett"
+    # options: precision, power
+    dim_type = "precision"
     # object dimension you want to test
-    obj_dim = 3.474
+    obj_name = "Pudding"
+    obj_dim = obj_size[obj_name][0]
+    obj_dim_depth=obj_size[obj_name][1]
+    obj_plot_depth = 0.4
+    obj_shape = obj_size[obj_name][2]
 
     dims = HandDims(hand, dim_type, inf_width=True, halve_measurements=True, distal_measurement="midpoint")
     dims.size_object(obj_dim)
-    _, ax = dims.plot_dims(plt_xlims=[-12, 12], plt_ylims=[0, 8],
-                           show_plot=True, save_plot=False)
-    # dims.plot_object(ax, plot_depth=0.9, span_adjust=0,
-    #                  object_span=obj_dim, object_depth=4,
-    #                  obj_angle=0, show_plot=True, save_plot=False)
+    fig, ax = dims.plot_dims(plt_xlims=[-16, 16],
+                           # plt_ylims=[0, 10],
+                           fig_size_ratio=[1, 0.5],
+                           show_legend=False,
+                           tick_font_size=20, fig_size=8,
+                           show_plot=False, save_plot=False)
+    dims.plot_object(fig, ax, plot_depth=obj_plot_depth, span_adjust=0,
+                     object_span=obj_dim, object_depth=obj_dim_depth,
+                     obj_name=obj_name, obj_shape=obj_shape,
+                     obj_angle=0, show_plot=True, save_plot=False)
 
     # print( rel_size_assessment(3, 11, 5, [33, 66]) ) # tS
     # print( rel_size_assessment(6, 11, 5, [33, 66]) ) # S
