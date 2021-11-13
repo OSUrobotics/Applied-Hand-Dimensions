@@ -32,7 +32,7 @@ def mirror_measurement(pt):
 
 
 def rel_size_assessment(obj_size, max_val, min_val, rel_thresholds):
-    print(f"{obj_size} | {min_val}->{max_val} | {rel_thresholds}")
+    #print(f"{obj_size} | {min_val}->{max_val} | {rel_thresholds}")
 
     if max_val == min_val:
         if obj_size > max_val:
@@ -43,7 +43,7 @@ def rel_size_assessment(obj_size, max_val, min_val, rel_thresholds):
             return "-1"
 
     perc_size = (obj_size - min_val) / (max_val - min_val)
-    print(f"{perc_size}")
+    #print(f"{perc_size}")
 
     if perc_size < 0:
         return "tS"
@@ -124,6 +124,23 @@ def obj_rel_sizes(hand_names, dim_type, obj_span):
         d = HandDims(h, dim_type)
         print(d.size_object(obj_span))
         print(" ")
+
+def mult_obj_rel_sizes(hand_names, obj_spans, dim_type):
+    with open('obj_rel_sizes.csv', 'w') as f:
+        writer = csv.writer(f)
+
+        for o in obj_spans:
+            print(o)
+            row_to_write = []
+            for h in hand_names:
+                hd = HandDims(h, dim_type)
+                d, m, b = hd.size_object(o)
+                row_to_write.append(d)
+                row_to_write.append(m)
+                row_to_write.append(b)
+            
+            writer.writerow(row_to_write)
+
 
 
 class HandDims:
@@ -291,7 +308,9 @@ class HandDims:
         for (x, y) in plus_pts:
             ax.scatter(x, y, marker="P", edgecolor="black", c="xkcd:light grey", s=125, zorder=101)
 
-    def plot_dims(self, subplot_fig=None, subplot_ax=None, fig_size=10, show_plot=True, save_plot=False):
+    def plot_dims(self, subplot_fig=None, subplot_ax=None, fig_size=10, 
+                  plt_xlims=None, plt_ylims=None, tick_font_size=16, 
+                  show_plot=True, save_plot=False):
         if subplot_ax is not None and subplot_fig is not None:
             fig = subplot_fig
             ax = subplot_ax
@@ -302,6 +321,7 @@ class HandDims:
         self._make_dimension_plot(fig=fig, ax=ax,
                             shade_distal=True, shade_proximal=True, y_offset=True,
                             width_vals=[self.widths[0], self.widths[1], True],
+                            plt_xlims=plt_xlims, plt_ylims=plt_ylims, tick_font_size=tick_font_size,
                             show_plot=show_plot,
                             save_plot=save_plot
                             )
@@ -310,6 +330,7 @@ class HandDims:
 
     def _make_dimension_plot(self, fig, ax, width_vals=None,
                             shade_distal=True, shade_proximal=False,
+                            plt_xlims=None, plt_ylims=None, tick_font_size=16,
                             y_offset=False, save_plot=False, show_plot=True):
 
         # used https://coolors.co/
@@ -404,6 +425,14 @@ class HandDims:
             subtitle = f"* Distal measurement at {self.distal_dim_point} of link."
             ax.text(0.1, -0.15, subtitle, transform=ax.transAxes, fontsize=10)
 
+        if plt_xlims is not None:
+            plt.xlim(plt_xlims) # [-12, 12])
+        if plt_ylims is not None:
+            plt.ylim(plt_ylims) # [0, 8])
+
+        plt.rc('xtick', labelsize=tick_font_size)
+        plt.rc('ytick', labelsize=tick_font_size)
+
         plt.legend(title="Finger Configs")  # TODO: maybe set alpha to 1 for legend?
         ax.set_aspect('equal', adjustable='box')
 
@@ -430,19 +459,19 @@ class HandDims:
         dist_max = self.get_dim_pair("max", "distal", unhalve_measurement=True)[0]
         dist_min = self.get_dim_pair("min", "distal", unhalve_measurement=True)[0]
         dist_rel_size = rel_size_assessment(object_span, dist_max, dist_min, rel_thresholds=thresholds)
-        print(dist_rel_size)
+        #print(dist_rel_size)
 
         # get mid assessment
         mid_max = self.get_dim_pair("max", "mid", unhalve_measurement=True)[0]
         mid_min = self.get_dim_pair("min", "mid", unhalve_measurement=True)[0]
         mid_rel_size = rel_size_assessment(object_span, mid_max, mid_min, rel_thresholds=thresholds)
-        print(mid_rel_size)
+        #print(mid_rel_size)
 
         # get min assessment
         min_max = self.get_dim_pair("max", "base", unhalve_measurement=True)[0]
         min_min = self.get_dim_pair("min", "base", unhalve_measurement=True)[0]
         min_rel_size = rel_size_assessment(object_span, min_max, min_min, rel_thresholds=thresholds)
-        print(min_rel_size)
+        #print(min_rel_size)
 
         return dist_rel_size, mid_rel_size, min_rel_size
 
@@ -472,17 +501,19 @@ class HandDims:
 
 if __name__ == '__main__':
     all_hands = ["barrett", "human", "jaco2", "mO_cylindrical", "mO_spherical", "mt42", "robotiq2f85"]
+    all_obj_spans = [7.467, 6.458, 4.048, 4.581, 3.41, 2.749, 5.106, 3.474, 4.496, 7.36, 5.311, 3.449, 12.2, 12.498, 6.413, 2.3]
 
     # options: precision, power
-    dim_type = "precision"
+    dim_type = "power"
     # options: barrett, human, jaco2, mO_cylindrical, mO_spherical, mt42, robotiq2f85
-    hand = "mt42"
+    hand = "barrett"
     # object dimension you want to test
-    obj_dim = 6.45
+    obj_dim = 3.474
 
-    # dims = HandDims(hand, dim_type, inf_width=True, halve_measurements=True, distal_measurement="midpoint")
-    # dims.size_object(obj_dim)
-    # _, ax = dims.plot_dims(show_plot=False, save_plot=False)
+    dims = HandDims(hand, dim_type, inf_width=True, halve_measurements=True, distal_measurement="midpoint")
+    dims.size_object(obj_dim)
+    _, ax = dims.plot_dims(plt_xlims=[-12, 12], plt_ylims=[0, 8],
+                           show_plot=True, save_plot=False)
     # dims.plot_object(ax, plot_depth=0.9, span_adjust=0,
     #                  object_span=obj_dim, object_depth=4,
     #                  obj_angle=0, show_plot=True, save_plot=False)
@@ -493,9 +524,12 @@ if __name__ == '__main__':
     # print( rel_size_assessment(10, 11, 5, [33, 66]) ) # L
     # print( rel_size_assessment(15, 11, 5, [33, 66]) ) # tL
 
-    plots_both_types(hand)
+    # plots_both_types(hand)
 
-    # obj_rel_sizes(all_hands, dim_type, obj_dim)
+    #print(f"For object size: {obj_dim}")
+    #obj_rel_sizes(all_hands, dim_type, obj_dim)
+
+    # mult_obj_rel_sizes(all_hands, all_obj_spans, dim_type)
 
     # save_hands_plots(all_hands)
 
