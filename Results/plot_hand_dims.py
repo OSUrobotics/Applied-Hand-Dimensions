@@ -1,6 +1,6 @@
 # hand dimensions plotting, John Morrow
 import matplotlib.pyplot as plt
-from matplotlib.patches import Rectangle, Circle
+from matplotlib.patches import Rectangle, Circle, Ellipse
 import csv
 import pdb
 
@@ -140,7 +140,6 @@ def mult_obj_rel_sizes(hand_names, obj_spans, dim_type):
                 row_to_write.append(b)
             
             writer.writerow(row_to_write)
-
 
 
 class HandDims:
@@ -512,6 +511,16 @@ class HandDims:
                            facecolor='none',
                            lw=2
                            )
+
+        elif obj_shape == "ellipse":
+            circ_depth = plot_depth * (self.max_depth - self.get_dim_pair("min", "base")[1])
+            circ_bot = circ_depth + object_span
+            shape = Ellipse((0, circ_bot), object_span, object_depth,
+                            edgecolor='xkcd:burnt orange',
+                           facecolor='none',
+                           lw=2
+                           )
+
         else:
             rect_depth = plot_depth * (self.max_depth - self.get_dim_pair("min", "base")[1])
             rect_bot = rect_depth + self.get_dim_pair("min", "base")[1]  # start at the base link depth, go from there
@@ -548,8 +557,22 @@ class HandDims:
 
 if __name__ == '__main__':
     all_hands = ["barrett", "human", "jaco2", "mO_cylindrical", "mO_spherical", "mt42", "robotiq2f85"]
-    all_obj_spans = [7.467, 6.458, 4.048, 4.581, 3.41, 2.749, 5.106, 3.474, 4.496, 7.36, 5.311, 3.449, 12.2, 12.498, 6.413, 2.3]
-    obj_size = {"Apple": [7.36, 0, "circle"], "Pitcher":[12.2, 0, "circle"], "Pudding":[3.41, 8.77, "rectangle"]}
+    focused_hands = ["barrett", "jaco2", "robotiq2f85"]
+
+    obj_size = {"Apple": [7.36, 0, "circle"], 
+                "Pitcher": [12.2, 0, "circle"], 
+                "Pudding": [3.41, 8.77, "rectangle"],
+                "Golfball": [3.9, 0, "circle"],
+                "Lock_base": [5.3975, 2.86, "rectangle"],
+                "Hammer": [3.4925, 2.54, "rectangle"],
+                "Cheezits_bigside": [15.875, 6.0325, "rectangle"],
+                "Cheezits_smallside": [6.0325, 15.875, "rectangle"],
+                "Die": [1.5875, 1.5876, "rectangle"],
+                "Apple2": [6.985, 6.6675, "ellipse"],
+                "Sprayer_base": [9.525, 5.715, "rectangle"],
+                "Sprayer_neck": [5.08, 3.4925, "rectangle"]
+                }
+    all_obj_spans = [obj_size[k][0] for k in obj_size.keys()]
 
     # options: barrett, human, jaco2, mO_cylindrical, mO_spherical, mt42, robotiq2f85
     hand = "barrett"
@@ -559,21 +582,21 @@ if __name__ == '__main__':
     obj_name = "Pudding"
     obj_dim = obj_size[obj_name][0]
     obj_dim_depth=obj_size[obj_name][1]
-    obj_plot_depth = 0.4
     obj_shape = obj_size[obj_name][2]
+    obj_plot_depth = 0.4
 
-    dims = HandDims(hand, dim_type, inf_width=True, halve_measurements=True, distal_measurement="midpoint")
-    dims.size_object(obj_dim)
-    fig, ax = dims.plot_dims(plt_xlims=[-16, 16],
-                           # plt_ylims=[0, 10],
-                           fig_size_ratio=[1, 0.5],
-                           show_legend=False,
-                           tick_font_size=20, fig_size=8,
-                           show_plot=False, save_plot=False)
-    dims.plot_object(fig, ax, plot_depth=obj_plot_depth, span_adjust=0,
-                     object_span=obj_dim, object_depth=obj_dim_depth,
-                     obj_name=obj_name, obj_shape=obj_shape,
-                     obj_angle=0, show_plot=True, save_plot=False)
+    # dims = HandDims(hand, dim_type, inf_width=True, halve_measurements=True, distal_measurement="midpoint")
+    # dims.size_object(obj_dim)
+    # fig, ax = dims.plot_dims(plt_xlims=[-16, 16],
+    #                        # plt_ylims=[0, 10],
+    #                        fig_size_ratio=[1, 0.5],
+    #                        show_legend=False,
+    #                        tick_font_size=20, fig_size=8,
+    #                        show_plot=False, save_plot=False)
+    # dims.plot_object(fig, ax, plot_depth=obj_plot_depth, span_adjust=0,
+    #                  object_span=obj_dim, object_depth=obj_dim_depth,
+    #                  obj_name=obj_name, obj_shape=obj_shape,
+    #                  obj_angle=0, show_plot=True, save_plot=False)
 
     # print( rel_size_assessment(3, 11, 5, [33, 66]) ) # tS
     # print( rel_size_assessment(6, 11, 5, [33, 66]) ) # S
@@ -586,7 +609,7 @@ if __name__ == '__main__':
     #print(f"For object size: {obj_dim}")
     #obj_rel_sizes(all_hands, dim_type, obj_dim)
 
-    # mult_obj_rel_sizes(all_hands, all_obj_spans, dim_type)
+    #mult_obj_rel_sizes(focused_hands, all_obj_spans, dim_type)
 
     # save_hands_plots(all_hands)
 

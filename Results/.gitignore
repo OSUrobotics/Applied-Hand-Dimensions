@@ -1,1 +1,17 @@
 *.jpg
+*.csv
+*.jpg
+!barrett/*.jpg
+!human/*.jpg
+!jaco2/*.jpg
+!mO_cylindrical/*.jpg
+!mO_spherical/*.jpg
+!mt42/*.jpg
+!robotiq2f85/*.jpg
+!barrett/*.csv
+!human/*.csv
+!jaco2/*.csv
+!mO_cylindrical/*.csv
+!mO_spherical/*.csv
+!mt42/*.csv
+!robotiq2f85/*.csv
