@@ -79,20 +79,22 @@ def plots_both_types(hand_name, fig_size=20,
                      inf_width=True, halve_measurements=True, distal_measurement="midpoint",
                      save_plot=False, show_plot=True):
     # TODO: make sure aspect ratio looks nicely with 
-    fig = plt.figure(figsize=(1*fig_size, 0.25*fig_size)) # TODO: comes out weird with the two plots
+    # fig = plt.figure(figsize=(0.75*fig_size, 0.25*fig_size)) # TODO: comes out weird with the two plots
+    fig = plt.figure(figsize=(16, 8))
     width_inf = True  # TODO: fix here!
 
     dims = HandDims(hand_name, "precision", inf_width=inf_width,
                     halve_measurements=halve_measurements, distal_measurement=distal_measurement)
     # max_list, int_list, min_list, (max_w, min_w), absmax = read_csv_measurements(hand, "precision")
     ax1 = fig.add_subplot(1,2,1)
-    dims.plot_dims(subplot_fig=fig, subplot_ax=ax1, show_plot=False, save_plot=False)
+    dims.plot_dims(subplot_fig=fig, subplot_ax=ax1, tick_font_size=16, show_plot=False, save_plot=False)
 
     dims2 = HandDims(hand_name, "power", inf_width=inf_width,
                     halve_measurements=halve_measurements, distal_measurement=distal_measurement)
     # max_list, int_list, min_list, (max_w, min_w), absmax = read_csv_measurements(hand, "power")
-    ax2 = fig.add_subplot(1,2,2)
-    dims2.plot_dims(subplot_fig=fig, subplot_ax=ax2, show_plot=False, save_plot=False)
+    ax2 = fig.add_subplot(1,2,2, sharey=ax1)
+    plt.setp(ax2.get_yticklabels(), visible=False)
+    dims2.plot_dims(subplot_fig=fig, subplot_ax=ax2, tick_font_size=16, show_plot=False, save_plot=False)
 
     # overwrite the titling from the make_dimension_plot
     fig.suptitle(f"{hand_name.capitalize()} Measurements, Power and Precision", fontweight='bold', fontsize=16)
@@ -430,9 +432,9 @@ class HandDims:
         title = f"{self.hand.capitalize()}, {self.dim_type} grasp dimensions"
 
         if None in self.widths:
-            ax.set_title(title)
+            ax.set_title(title, fontweight='bold', fontsize=20)
         else:
-            fig.suptitle(title, fontweight='bold', fontsize=16)
+            fig.suptitle(title, fontweight='bold', fontsize=20)
 
             if width_vals[2]:  # width_vals[2] is a boolean which indicates whether max width value is capped or can theoretically go on forever
                 width_modifier = "+"
@@ -440,22 +442,23 @@ class HandDims:
                 width_modifier = ""
 
             widths = f"Width: {width_vals[1]} - {width_vals[0]}{width_modifier} cm"
-            ax.set_title(widths)
+            ax.set_title(widths, fontsize=tick_font_size)
 
         if self.distal_dim_point is not None:
             subtitle = f"* Distal measurement at {self.distal_dim_point} of link."
-            ax.text(0.1, -0.15, subtitle, transform=ax.transAxes, fontsize=10)
+            ax.text(0.1, -0.15, subtitle, transform=ax.transAxes, fontsize=tick_font_size)
 
         if plt_xlims is not None:
             plt.xlim(plt_xlims) # [-12, 12])
         if plt_ylims is not None:
             plt.ylim(plt_ylims) # [0, 8])
 
-        plt.rc('xtick', labelsize=tick_font_size)
-        plt.rc('ytick', labelsize=tick_font_size)
+        plt.yticks(fontsize=tick_font_size)
+        plt.xticks(fontsize=tick_font_size)
 
         if show_legend:
-            plt.legend(title="Finger Configs")  # TODO: maybe set alpha to 1 for legend?
+            plt.legend(title="Finger Configs", title_fontsize=12, fontsize=12)  # TODO: maybe set alpha to 1 for legend?
+
         ax.set_aspect('equal', adjustable='box')
 
         if save_plot:
@@ -513,9 +516,9 @@ class HandDims:
                            )
 
         elif obj_shape == "ellipse":
-            circ_depth = plot_depth * (self.max_depth - self.get_dim_pair("min", "base")[1])
-            circ_bot = circ_depth + object_span
-            shape = Ellipse((0, circ_bot), object_span, object_depth,
+            ell_depth = plot_depth * (self.max_depth - self.get_dim_pair("min", "base")[1])
+            ell_bot = ell_depth + object_depth/2.0
+            shape = Ellipse((0, ell_bot), object_span, object_depth,
                             edgecolor='xkcd:burnt orange',
                            facecolor='none',
                            lw=2
@@ -564,7 +567,7 @@ if __name__ == '__main__':
                 "Pudding": [3.41, 8.77, "rectangle"],
                 "Golfball": [3.9, 0, "circle"],
                 "Lock_base": [5.3975, 2.86, "rectangle"],
-                "Hammer": [3.4925, 2.54, "rectangle"],
+                "Hammer": [3.4925, 2.54, "ellipse"],
                 "Cheezits_bigside": [15.875, 6.0325, "rectangle"],
                 "Cheezits_smallside": [6.0325, 15.875, "rectangle"],
                 "Die": [1.5875, 1.5876, "rectangle"],
@@ -575,25 +578,26 @@ if __name__ == '__main__':
     all_obj_spans = [obj_size[k][0] for k in obj_size.keys()]
 
     # options: barrett, human, jaco2, mO_cylindrical, mO_spherical, mt42, robotiq2f85
-    hand = "barrett"
+    hand = "robotiq2f85"
     # options: precision, power
     dim_type = "precision"
     # object dimension you want to test
-    obj_name = "Pudding"
+    obj_name = "Cheezits_smallside"
     obj_dim = obj_size[obj_name][0]
     obj_dim_depth=obj_size[obj_name][1]
     obj_shape = obj_size[obj_name][2]
-    obj_plot_depth = 0.4
+    obj_plot_depth = 0.02
 
-    # dims = HandDims(hand, dim_type, inf_width=True, halve_measurements=True, distal_measurement="midpoint")
-    # dims.size_object(obj_dim)
-    # fig, ax = dims.plot_dims(plt_xlims=[-16, 16],
-    #                        # plt_ylims=[0, 10],
-    #                        fig_size_ratio=[1, 0.5],
-    #                        show_legend=False,
-    #                        tick_font_size=20, fig_size=8,
-    #                        show_plot=False, save_plot=False)
-    # dims.plot_object(fig, ax, plot_depth=obj_plot_depth, span_adjust=0,
+    dims = HandDims(hand, dim_type, inf_width=True, halve_measurements=True, distal_measurement=None)
+    dims.size_object(obj_dim)
+    fig, ax = dims.plot_dims(plt_xlims=[-16, 16],
+                           plt_ylims=[0, 10],
+                           fig_size_ratio=[1, 0.45],
+                           show_legend=True,
+                           tick_font_size=16, fig_size=8,
+                           show_plot=True, save_plot=False)
+    # dims.plot_object(fig, ax, 
+    #                  plot_depth=obj_plot_depth, span_adjust=0,
     #                  object_span=obj_dim, object_depth=obj_dim_depth,
     #                  obj_name=obj_name, obj_shape=obj_shape,
     #                  obj_angle=0, show_plot=True, save_plot=False)
