@@ -146,8 +146,30 @@ class HandDims:
     def add_int_measurement(self, loc, dist, base, mids, wipe_ints=False):
         pass
 
-    def edit_max(self, new_val):
-        pass
+    def edit_max(self, distal_dim=None, base_dim=None, mid_dims=None):
+        if distal_dim and isinstance(distal_dim, d.Dims):
+            self.max_dims["distal"] = distal_dim
 
-    def edit_min(self, new_val):
-        pass
+        if base_dim and isinstance(base_dim, d.Dims):
+            self.max_dims["base"] = base_dim
+
+        if mid_dims and isinstance(mid_dims, d.Dims):
+            self.max_dims["mid"] = mid_dims
+
+        # # for when mid dims is a list of Dims
+        # if mid_dims and isinstance(mid_dims, list) and None not in mid_dims:
+        #     self.max_dims["mid"] = mid_dims
+        
+    def edit_min(self, distal_dim, base_dim, mid_dims):
+        if distal_dim and isinstance(distal_dim, d.Dims):
+            self.min_dims["distal"] = distal_dim
+
+        if base_dim and isinstance(base_dim, d.Dims):
+            self.min_dims["base"] = base_dim
+
+        if mid_dims and isinstance(mid_dims, d.Dims):
+            self.min_dims["mid"] = mid_dims
+
+        # # for when mid dims is a list of Dims
+        # if mid_dims and isinstance(mid_dims, list) and None not in mid_dims:
+        #     self.max_dims["mid"] = mid_dims
