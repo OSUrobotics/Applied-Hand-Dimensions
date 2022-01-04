@@ -323,12 +323,17 @@ class HandDims:
                 ax.plot([-1 * x, 1 * x], [0, 0], linewidth=7, color="black")
 
     def plot_dims(self, subplot_fig=None, subplot_ax=None,
-                  fig_size=10, fig_size_ratio=None,
+                  fig_size=10, fig_size_ratio=None, show_width=True,
                   plt_xlims=None, plt_ylims=None, tick_font_size=16, 
                   show_legend=True, show_plot=True, save_plot=False):
 
         if fig_size_ratio is None:
             fig_size_ratio = [1.25, 0.45]
+
+        if show_width:
+            widths = [self.widths[0], self.widths[1], True]
+        else:
+            widths = None
 
         if subplot_ax is not None and subplot_fig is not None:
             fig = subplot_fig
@@ -339,7 +344,7 @@ class HandDims:
 
         self._make_dimension_plot(fig=fig, ax=ax,
                             shade_distal=True, shade_proximal=True, y_offset=True,
-                            width_vals=[self.widths[0], self.widths[1], True],
+                            width_vals=widths,
                             plt_xlims=plt_xlims, plt_ylims=plt_ylims, tick_font_size=tick_font_size,
                             show_legend=show_legend,
                             show_plot=show_plot,
@@ -429,10 +434,11 @@ class HandDims:
 
         self.draw_palm(ax=ax)
 
-        title = f"{self.hand.capitalize()}, {self.dim_type} grasp dimensions"
+        title = f"{self.hand.capitalize()}, {self.dim_type} grasp dimensions (cm)"
 
-        if None in self.widths:
-            ax.set_title(title, fontweight='bold', fontsize=20)
+        # TODO: still using the widths as parameter, not the object -> turn into show_widths
+        if width_vals is None or None in self.widths:
+            ax.set_title(title, fontsize=18, fontweight='bold', pad=10) #fontweight='bold', fontsize=20)
         else:
             fig.suptitle(title, fontweight='bold', fontsize=20)
 
@@ -580,7 +586,7 @@ if __name__ == '__main__':
     # options: barrett, human, jaco2, mO_cylindrical, mO_spherical, mt42, robotiq2f85
     hand = "robotiq2f85"
     # options: precision, power
-    dim_type = "precision"
+    dim_type = "power"
     # object dimension you want to test
     obj_name = "Cheezits_smallside"
     obj_dim = obj_size[obj_name][0]
@@ -593,9 +599,10 @@ if __name__ == '__main__':
     fig, ax = dims.plot_dims(plt_xlims=[-16, 16],
                            plt_ylims=[0, 10],
                            fig_size_ratio=[1, 0.45],
-                           show_legend=True,
+                           show_width=False,
+                           show_legend=False,
                            tick_font_size=16, fig_size=8,
-                           show_plot=True, save_plot=False)
+                           show_plot=True, save_plot=True)
     # dims.plot_object(fig, ax, 
     #                  plot_depth=obj_plot_depth, span_adjust=0,
     #                  object_span=obj_dim, object_depth=obj_dim_depth,
