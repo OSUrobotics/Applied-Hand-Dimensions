@@ -1,4 +1,4 @@
-
+import matplotlib.pyplot as plt
 
 class DimAnalyzer:
     def __init__():
