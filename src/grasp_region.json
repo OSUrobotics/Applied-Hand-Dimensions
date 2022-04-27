@@ -1,0 +1,18 @@
+{
+    "gripper_name": "hand_name",
+    "grasp_style": "cylindrical/spherical",
+    "power" : {
+        "max" : [["base_span", "base_depth"], ["mid_span", "mid_depth"], ["distal_span", "distal_depth"]],
+        "int" : [["base_span", "base_depth"], ["mid_span", "mid_depth"], ["distal_span", "distal_depth"]],
+        "min" : [["base_span", "base_depth"], ["mid_span", "mid_depth"], ["distal_span", "distal_depth"]],
+        "width" : ["min_width", "max_width"]
+    },
+    "precision": {
+        "max" : [["base_span", "base_depth"], ["mid_span", "mid_depth"], ["distal_span", "distal_depth"]],
+        "int" : [["base_span", "base_depth"], ["mid_span", "mid_depth"], ["distal_span", "distal_depth"]],
+        "min" : [["base_span", "base_depth"], ["mid_span", "mid_depth"], ["distal_span", "distal_depth"]],
+        "abs_max" : ["span", "depth"],
+        "width" : ["min_width", "max_width"]
+    }
+
+}
