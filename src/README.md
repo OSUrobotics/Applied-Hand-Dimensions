@@ -1,7 +1,11 @@
 # Generate Grasp Regions
 
 ## Requirements:
-* Blender (tested on 2.93 should work with newer)
+* Blender (tested on 2.93 and 3.1)
+    - Install blender on linux with the following:
+    ```console
+    sudo snap install blender --classic
+    ```
     - After installing blender it is useful to add a shortcut in .bashrc that allows you to use "blender" instead of the full path to the executable.
 
 
