@@ -63,11 +63,16 @@ class GraspRegion():
         bottom_neg = []
         verts = []
         for point in point_list:
-            span = point[0] / 2
-            bottom_pos.append((span, point[1], 0))
-            bottom_neg.insert(0,(-1*span, point[1], 0))
-            top_pos.append((span, point[1], height))
-            top_neg.insert(0, (-1*span, point[1], height))
+            if point[0] == 0.0:
+                span = point[0]
+                bottom_pos.append((span, point[1], 0))
+                top_pos.append((span, point[1], height))
+            else:
+                span = point[0] / 2
+                bottom_pos.append((span, point[1], 0))
+                bottom_neg.insert(0,(-1*span, point[1], 0))
+                top_pos.append((span, point[1], height))
+                top_neg.insert(0, (-1*span, point[1], height))
         verts += bottom_pos
         verts += bottom_neg
         top_position = len(verts)
