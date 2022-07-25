@@ -8,9 +8,11 @@ import bmesh
 import numpy as np
 import os
 from pathlib import Path
+# import pathlib
 import sys
 import json
 from math import sin, cos, tan, pi
+import logging
 
 
 class GraspRegion():
@@ -28,9 +30,9 @@ class GraspRegion():
         # for i in range(6):
         #     self.material_list.append(self.new_material(materials[i][0], materials[i][1]))
 
-        print(f"\n\n\n {self.material_list} \n\n\n")
+        logger.debug(f"\n\n\n {self.material_list} \n\n\n")
         self.delete_all()
-        self.current_loc = os.getcwd()
+        self.current_loc = str(Path(__file__).parent.resolve())
         json_file_loc = f'{self.current_loc}/{json_file}'
         grasp_region_dict = self.read_json(json_file=json_file_loc)
         gripper_name = grasp_region_dict["gripper_name"]
@@ -61,19 +63,35 @@ class GraspRegion():
         power_keys -= ["width"]
 
         for key in power_keys:
-            verts, faces, face_number = self.cylindrical_power(grasp_region_dict["power"][key], grasp_region_dict["power"]["width"][1])
-            print("making mesh")
+            verts, faces, face_number, top_starting = self.cylindrical_power(grasp_region_dict["power"][key], grasp_region_dict["power"]["width"][1])
+
+            logger.info("making power grasp volume meshes")
             self.blender_make_mesh(verts, faces, f'{grasp_region_dict["gripper_name"]}_power_{key}')
             self.blender_color_mesh(face_number=face_number, mesh_name=f'{grasp_region_dict["gripper_name"]}_power_{key}')
+            names = []
+            for i, contact_point in enumerate(verts[top_starting:]):
+                names.append(f'{grasp_region_dict["gripper_name"]}_power_{key}_contact{i}')
+                self.add_contact_point(contact_location=contact_point, point_name=f'{grasp_region_dict["gripper_name"]}_power_{key}_contact{i}')
+            names.append(f'{grasp_region_dict["gripper_name"]}_power_{key}')
+            self.join_parts(names=names, new_name=f'{grasp_region_dict["gripper_name"]}_power_{key}')
             self.export_part(f'{grasp_region_dict["gripper_name"]}_power_{key}', self.mesh_loc)
             self.delete_all()
         precision_keys = grasp_region_dict["precision"].keys()
         precision_keys -= ["width", "abs_max"]
         for prec_key in precision_keys:
-            verts, faces, face_number = self.cylindrical_power(grasp_region_dict["precision"][prec_key], grasp_region_dict["precision"]["width"][1])
+            verts, faces, face_number, top_starting = self.cylindrical_power(grasp_region_dict["precision"][prec_key], grasp_region_dict["precision"]["width"][1])
+            
+            logger.info("making precision grasp volume meshes")
             self.blender_make_mesh(verts, faces, f'{grasp_region_dict["gripper_name"]}_precision_{prec_key}')
 
             self.blender_color_mesh(face_number, mesh_name=f'{grasp_region_dict["gripper_name"]}_precision_{prec_key}')
+
+            names = []
+            for i, contact_point in enumerate(verts[top_starting:]):
+                names.append(f'{grasp_region_dict["gripper_name"]}_precision_{prec_key}_contact{i}')
+                self.add_contact_point(contact_location=contact_point, point_name=f'{grasp_region_dict["gripper_name"]}_precision_{prec_key}_contact{i}')
+            names.append(f'{grasp_region_dict["gripper_name"]}_precision_{prec_key}')
+            self.join_parts(names=names, new_name=f'{grasp_region_dict["gripper_name"]}_precision_{prec_key}')
 
             self.export_part(f'{grasp_region_dict["gripper_name"]}_precision_{prec_key}', self.mesh_loc)
             self.delete_all()
@@ -102,6 +120,15 @@ class GraspRegion():
 
 
     def cylindrical_power(self, point_list, height):
+        """Generate mesh representing the volume of a cylindrical power grasp (also used for the precision grasp).
+
+        Args:
+            point_list (_type_): [[x_1,y_1], ..., [x_n, y_n]]<floats>, list containing the pairs of span and depth measurements for the grasp 
+            height (_type_): <float>, the width measurement which is how tall the object is.
+
+        Returns:
+            _type_: _description_
+        """
         top_pos = []
         top_neg = []
         bottom_pos = []
@@ -119,14 +146,14 @@ class GraspRegion():
                 bottom_neg.insert(0,(-1*span, point[1], 0))
                 top_pos.append((span, point[1], height))
                 top_neg.insert(0, (-1*span, point[1], height))
+        
+
         verts += bottom_pos
         verts += bottom_neg
         top_position = len(verts)
         verts += top_pos
         verts += top_neg
 
-        # faces = []
-        # print(f'top_position: {top_position}, len of verts: {len(verts)}')
         faces = [(range(top_position-1, -1, -1))]
         face_number["top"] = 0
         faces.append((range(top_position, len(verts))))
@@ -138,7 +165,25 @@ class GraspRegion():
         
         face_number["sides"] =  list(range(3,len(faces)))
         
-        return verts, faces, face_number
+        return verts, faces, face_number, top_position
+    
+    def add_contact_point(self, contact_location:list, point_name):
+        transform = Matrix.Translation(contact_location)
+        
+        bm = bmesh.new()
+        bmesh.ops.create_icosphere(bm, subdivisions=2, diameter=.005, matrix=transform, calc_uvs=True)
+        mesh_data = data.meshes.new(point_name)
+        bm.to_mesh(mesh_data)
+        bm.free()
+        mesh_obj = data.objects.new(mesh_data.name, mesh_data)
+        context.collection.objects.link(mesh_obj)
+        
+        mesh = data.objects[point_name]
+        mesh.data.materials.append(self.material_list[-1])
+        for face in mesh.data.polygons:
+            face.material_index = 0
+
+        
 
     def delete_all(self):
         """Delete all objects in the blender enviroment."""
@@ -162,6 +207,20 @@ class GraspRegion():
         bm.free()
         mesh_obj = data.objects.new(mesh_data.name, mesh_data)
         context.collection.objects.link(mesh_obj)
+
+    def join_parts(self, names, new_name):
+        """Combine multiple objects together.
+
+        Args: 
+            names (lsit): list of str, the names of the objects to be combined, the last object will be the cordniate frame the new mesh will have.
+            new_name (str): Name of the new object.
+        """
+        for i in range(len(names) - 1):
+            bpy.data.objects[names[i]].select_set(True)
+        
+        bpy.context.view_layer.objects.active = bpy.data.objects[names[-1]]
+        bpy.ops.object.join()
+        bpy.context.selected_objects[0].name = new_name
 
     def export_part(self, name, export_directory):
         """Export the object as an obj file.
@@ -195,8 +254,41 @@ class GraspRegion():
             dictionary = json.load(read_file)
         return dictionary
 
+def colored_logging(name: str):
+
+    logger = logging.getLogger(name=name)
+    handler = logging.StreamHandler()
+    handler.setFormatter(ColorFormatter())
+    logger.addHandler(handler)
+    logger.setLevel(logging.INFO)
+    logger.propagate = False
+    return logger
+
+class ColorFormatter(logging.Formatter):
+    """add color to pythons logging."""
+
+    red = '\033[91m'
+    bold_red = '\033[91m1m'
+    green = '\033[92m'
+    yellow = '\033[93m'
+    blue = '\033[94m'
+    reset = '\033[0m'
+    format = "\n%(levelname)s | %(name)s | %(message)s\n"
+    FORMATS = {logging.DEBUG: blue + format + reset,
+                        logging.INFO: green + format + reset,
+                        logging.WARNING: yellow + format + reset,
+                        logging.ERROR: red + format + reset,
+                        logging.CRITICAL: bold_red + format + reset
+                        }
+    def format(self, record):
+        log_fmt = self.FORMATS.get(record.levelno)
+        formatter = logging.Formatter(log_fmt)
+        return formatter.format(record)
+
 
 if __name__ == '__main__':
+
+    logger = colored_logging("visualize_grasp_region")
 
     json_file_name = sys.argv[-1]
 
