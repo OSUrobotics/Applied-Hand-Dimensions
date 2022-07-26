@@ -63,15 +63,21 @@ class GraspRegion():
         power_keys -= ["width"]
 
         for key in power_keys:
-            verts, faces, face_number, top_starting = self.cylindrical_power(grasp_region_dict["power"][key], grasp_region_dict["power"]["width"][1])
+            verts, faces, face_number, contact_locations = self.cylindrical_power(grasp_region_dict["power"][key], grasp_region_dict["power"]["width"][1])
 
             logger.info("making power grasp volume meshes")
             self.blender_make_mesh(verts, faces, f'{grasp_region_dict["gripper_name"]}_power_{key}')
             self.blender_color_mesh(face_number=face_number, mesh_name=f'{grasp_region_dict["gripper_name"]}_power_{key}')
             names = []
-            for i, contact_point in enumerate(verts[top_starting:]):
+            for i, contact_point in enumerate(contact_locations):
                 names.append(f'{grasp_region_dict["gripper_name"]}_power_{key}_contact{i}')
-                self.add_contact_point(contact_location=contact_point, point_name=f'{grasp_region_dict["gripper_name"]}_power_{key}_contact{i}')
+                
+                if (len(contact_locations) % 2) != 0 and i == int(len(contact_locations)/2):
+                    self.add_contact_point(contact_location=contact_point, point_name=f'{grasp_region_dict["gripper_name"]}_power_{key}_contact{i}', color=self.material_list[-2])
+                elif i < len(contact_locations)/2:
+                    self.add_contact_point(contact_location=contact_point, point_name=f'{grasp_region_dict["gripper_name"]}_power_{key}_contact{i}', color=self.material_list[-1])
+                else:
+                    self.add_contact_point(contact_location=contact_point, point_name=f'{grasp_region_dict["gripper_name"]}_power_{key}_contact{i}', color=self.material_list[1])
             names.append(f'{grasp_region_dict["gripper_name"]}_power_{key}')
             self.join_parts(names=names, new_name=f'{grasp_region_dict["gripper_name"]}_power_{key}')
             self.export_part(f'{grasp_region_dict["gripper_name"]}_power_{key}', self.mesh_loc)
@@ -79,7 +85,7 @@ class GraspRegion():
         precision_keys = grasp_region_dict["precision"].keys()
         precision_keys -= ["width", "abs_max"]
         for prec_key in precision_keys:
-            verts, faces, face_number, top_starting = self.cylindrical_power(grasp_region_dict["precision"][prec_key], grasp_region_dict["precision"]["width"][1])
+            verts, faces, face_number, contact_locations = self.cylindrical_power(grasp_region_dict["precision"][prec_key], grasp_region_dict["precision"]["width"][1])
             
             logger.info("making precision grasp volume meshes")
             self.blender_make_mesh(verts, faces, f'{grasp_region_dict["gripper_name"]}_precision_{prec_key}')
@@ -87,9 +93,15 @@ class GraspRegion():
             self.blender_color_mesh(face_number, mesh_name=f'{grasp_region_dict["gripper_name"]}_precision_{prec_key}')
 
             names = []
-            for i, contact_point in enumerate(verts[top_starting:]):
+            for i, contact_point in enumerate(contact_locations):
                 names.append(f'{grasp_region_dict["gripper_name"]}_precision_{prec_key}_contact{i}')
-                self.add_contact_point(contact_location=contact_point, point_name=f'{grasp_region_dict["gripper_name"]}_precision_{prec_key}_contact{i}')
+                if (len(contact_locations) % 2) != 0 and i == int(len(contact_locations)/2):
+                    self.add_contact_point(contact_location=contact_point, point_name=f'{grasp_region_dict["gripper_name"]}_precision_{prec_key}_contact{i}', color=self.material_list[-2])
+                elif i < len(contact_locations)/2:
+                    self.add_contact_point(contact_location=contact_point, point_name=f'{grasp_region_dict["gripper_name"]}_precision_{prec_key}_contact{i}', color=self.material_list[-1])
+                else:
+                    self.add_contact_point(contact_location=contact_point, point_name=f'{grasp_region_dict["gripper_name"]}_precision_{prec_key}_contact{i}', color=self.material_list[1])
+                
             names.append(f'{grasp_region_dict["gripper_name"]}_precision_{prec_key}')
             self.join_parts(names=names, new_name=f'{grasp_region_dict["gripper_name"]}_precision_{prec_key}')
 
@@ -134,18 +146,24 @@ class GraspRegion():
         bottom_pos = []
         bottom_neg = []
         verts = []
+        contact_points = []
+        contact_points_pos = []
+        contact_points_neg = []
         face_number = {}
         for point in point_list:
             if point[0] == 0.0:
                 span = point[0]
                 bottom_pos.append((span, point[1], 0))
                 top_pos.append((span, point[1], height))
+                contact_points_pos.append((span, point[1], height/2))
             else:
                 span = point[0] / 2
                 bottom_pos.append((span, point[1], 0))
                 bottom_neg.insert(0,(-1*span, point[1], 0))
                 top_pos.append((span, point[1], height))
                 top_neg.insert(0, (-1*span, point[1], height))
+                contact_points_pos.append((span, point[1], height/2))
+                contact_points_neg.insert(0, (-1*span, point[1], height/2))
         
 
         verts += bottom_pos
@@ -153,6 +171,8 @@ class GraspRegion():
         top_position = len(verts)
         verts += top_pos
         verts += top_neg
+        contact_points += contact_points_pos
+        contact_points += contact_points_neg
 
         faces = [(range(top_position-1, -1, -1))]
         face_number["top"] = 0
@@ -165,9 +185,9 @@ class GraspRegion():
         
         face_number["sides"] =  list(range(3,len(faces)))
         
-        return verts, faces, face_number, top_position
+        return verts, faces, face_number, contact_points
     
-    def add_contact_point(self, contact_location:list, point_name):
+    def add_contact_point(self, contact_location:list, point_name, color):
         transform = Matrix.Translation(contact_location)
         
         bm = bmesh.new()
@@ -179,7 +199,7 @@ class GraspRegion():
         context.collection.objects.link(mesh_obj)
         
         mesh = data.objects[point_name]
-        mesh.data.materials.append(self.material_list[-1])
+        mesh.data.materials.append(color)
         for face in mesh.data.polygons:
             face.material_index = 0
 
