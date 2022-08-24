@@ -584,9 +584,9 @@ if __name__ == '__main__':
     all_obj_spans = [obj_size[k][0] for k in obj_size.keys()]
 
     # options: barrett, human, jaco2, mO_cylindrical, mO_spherical, mt42, robotiq2f85
-    hand = "robotiq2f85"
+    hand = "barrett"
     # options: precision, power
-    dim_type = "power"
+    dim_type = "precision"
     # object dimension you want to test
     obj_name = "Cheezits_smallside"
     obj_dim = obj_size[obj_name][0]
@@ -597,7 +597,7 @@ if __name__ == '__main__':
     dims = HandDims(hand, dim_type, inf_width=True, halve_measurements=True, distal_measurement=None)
     dims.size_object(obj_dim)
     fig, ax = dims.plot_dims(plt_xlims=[-16, 16],
-                           plt_ylims=[0, 10],
+                           plt_ylims=[0, 12],
                            fig_size_ratio=[1, 0.45],
                            show_width=False,
                            show_legend=False,

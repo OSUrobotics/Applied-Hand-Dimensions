@@ -108,29 +108,6 @@ class GraspRegion():
             self.export_part(f'{grasp_region_dict["gripper_name"]}_precision_{prec_key}', self.mesh_loc)
             self.delete_all()
 
-    def blender_color_mesh(self, face_number, mesh_name):
-        
-        mesh = data.objects[mesh_name]
-        for material in self.material_list:
-            mesh.data.materials.append(material)
-        
-        mesh.data.polygons[face_number["top"]].material_index = 3
-        mesh.data.polygons[face_number["bottom"]].material_index = 3
-        mesh.data.polygons[face_number["back"]].material_index = 3
-
-        side_faces = len(face_number["sides"]) // 2
-        for side_number in range(3, 3+side_faces):
-            mesh.data.polygons[side_number].material_index = 0
-        
-        if len(face_number["sides"]) % 2 == 0:
-            for side_number in range(3+side_faces, 3 + side_faces*2):
-                mesh.data.polygons[side_number].material_index = 2
-        else:
-            mesh.data.polygons[3+side_faces].material_index = 3
-            for side_number in range(3+side_faces + 1, 3+side_faces*2 + 1):
-                mesh.data.polygons[side_number].material_index = 2
-
-
     def cylindrical_power(self, point_list, height):
         """Generate mesh representing the volume of a cylindrical power grasp (also used for the precision grasp).
 
@@ -202,6 +179,29 @@ class GraspRegion():
         mesh.data.materials.append(color)
         for face in mesh.data.polygons:
             face.material_index = 0
+
+
+    def blender_color_mesh(self, face_number, mesh_name):
+        
+        mesh = data.objects[mesh_name]
+        for material in self.material_list:
+            mesh.data.materials.append(material)
+        
+        mesh.data.polygons[face_number["top"]].material_index = 3
+        mesh.data.polygons[face_number["bottom"]].material_index = 3
+        mesh.data.polygons[face_number["back"]].material_index = 3
+
+        side_faces = len(face_number["sides"]) // 2
+        for side_number in range(3, 3+side_faces):
+            mesh.data.polygons[side_number].material_index = 0
+        
+        if len(face_number["sides"]) % 2 == 0:
+            for side_number in range(3+side_faces, 3 + side_faces*2):
+                mesh.data.polygons[side_number].material_index = 2
+        else:
+            mesh.data.polygons[3+side_faces].material_index = 3
+            for side_number in range(3+side_faces + 1, 3+side_faces*2 + 1):
+                mesh.data.polygons[side_number].material_index = 2
 
         
 
@@ -311,5 +311,5 @@ if __name__ == '__main__':
     logger = colored_logging("visualize_grasp_region")
 
     json_file_name = sys.argv[-1]
-
+    
     GraspRegion(json_file=json_file_name)
